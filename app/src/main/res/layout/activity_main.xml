@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="br.com.sinapse.MainActivity">
+    tools:context="br.com.sinapse.view.MainActivity">
 
     <ImageView
         android:id="@+id/imageView"
@@ -21,15 +21,15 @@
         android:orientation="vertical">
 
         <EditText
-            android:id="@+id/editText"
+            android:id="@+id/txtLogin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="Login"
-            android:inputType="textPersonName" />
+            android:inputType="text|textEmailAddress|textShortMessage|textPersonName"/>
 
         <EditText
-            android:id="@+id/editText2"
+            android:id="@+id/txtPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -37,10 +37,18 @@
             android:inputType="textPersonName" />
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/btLogar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:onClick="abrirFeed"
             android:text="Logar" />
+
+        <Button
+            android:id="@+id/btRegistro"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="registrar"
+            android:text="Cadastrar" />
     </LinearLayout>
 
 </LinearLayout>
