@@ -28,6 +28,7 @@ public class DBComands {
             + COLUMN_USER_EMAIL + " TEXT NOT NULL unique," + COLUMN_USER_PASSWORD + " TEXT NOT NULL," + COLUMN_USER_LOGIN + " TEXT UNIQUE," + COLUMN_USER_TEL + " TEXT UNIQUE," + COLUMN_USER_OCUP + " TEXT," + COLUMN_USER_INSTITUICAO + " TEXT not null," + COLUMN_USER_CURSO + " TEXT not null," + COLUMN_USER_PERIODO + " INTEGER" + ")";
 
     //Instituicao Table Columns names
+    public static final String COLUMN_PJ_ID = "id";
     public static final String COLUMN_PJ_CNPJ = "cnpj";
     public static final String COLUMN_PJ_NOME = "nome";
     public static final String COLUMN_PJ_PASSWORD = "senha";
@@ -44,6 +45,8 @@ public class DBComands {
     public static final String COLUMN_PJ_CEO = "ceo";
     public static final String COLUMN_PJ_EMAIL = "email";
 
+    public static final String CREATE_TABLE_INSTITUICAO = "CREATE TABLE IF NOT EXISTS " + TABLE_INSTITUICAO + "(" + COLUMN_PJ_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COLUMN_PJ_CNPJ + " TEXT NOT NULL UNIQUE, " + COLUMN_PJ_NOME + " TEXT NOT NULL, " + COLUMN_PJ_PASSWORD + " TEXT NOT NULL, " + COLUMN_PJ_LOGIN + " TEXT UNIQUE, " + COLUMN_PJ_CEP + " INTEGER NOT NULL, " + COLUMN_PJ_LOGADOURO + " TEXT NOT NULL, " + COLUMN_PJ_BAIRRO + " TEXT NOT NULL, " + COLUMN_PJ_NUMERO + " INTEGER, " + COLUMN_PJ_CIDADE + " TEXT NOT NULL, " + COLUMN_PJ_ESTADO + " TEXT NOT NULL, " + COLUMN_PJ_PAIS + " TEXT NOT NULL, " + COLUMN_PJ_TELEFONE + " INTEGER, " + COLUMN_PJ_SITE + " TEXT, " + COLUMN_PJ_CEO + " TEXT NOT NULL, " + COLUMN_PJ_EMAIL + " TEXT NOT NULL UNIQUE" + ")";
+
     //Evento Table Columns names
     public static final String COLUMN_EVENTO_ID = "id";
     public static final String COLUMN_EVENTO_TEMA = "tema";
@@ -55,6 +58,9 @@ public class DBComands {
     public static final String COLUMN_EVENTO_CATEGORIA = "categoria";
     public static final String COLUMN_EVENTO_INSTITUICAO = "fk_instituicao";
     public static final String COLUMN_EVENTO_HORAS = "qtd_hora";
+
+    public static final String CREATE_TABLE_EVENTO = "CREATE TABLE IF NOT EXISTS " + TABLE_EVENT + "(" + COLUMN_EVENTO_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COLUMN_EVENTO_TEMA + " TEXT NOT NULL, " + COLUMN_EVENTO_DATA + " TEXT NOT NULL, " + COLUMN_EVENTO_DURACAO + " INTEGER NOT NULL, " + COLUMN_EVENTO_PALESTRANTE + " INTEGER, " + COLUMN_EVENTO_VAGAS + " INTEGER NOT NULL, " + COLUMN_EVENTO_DESCRICAO + " TEXT NOT NULL, " + COLUMN_EVENTO_CATEGORIA + " TEXT, " + COLUMN_EVENTO_INSTITUICAO + " INTEGER, " + COLUMN_EVENTO_HORAS + " INTEGER, " + "FOREIGN KEY (" + COLUMN_EVENTO_PALESTRANTE + ") REFERENCES " + TABLE_USER + "(" + COLUMN_USER_ID + "), " +
+            "FOREIGN KEY (" + COLUMN_EVENTO_INSTITUICAO + ") REFERENCES " + TABLE_INSTITUICAO + "(" + COLUMN_PJ_ID + ")" + ")";
 
 
     // create table sql query

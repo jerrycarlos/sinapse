@@ -22,6 +22,7 @@ public class CadastroActivity extends AppCompatActivity {
     private Context context;
     private DBControl dbHelper;
     private final AppCompatActivity activity = CadastroActivity.this;
+    public static long result = -1;
     //private DatabaseHelper databaseHelper;
     //private InputValidation inputValidation;
     @Override
@@ -32,7 +33,7 @@ public class CadastroActivity extends AppCompatActivity {
         getSupportActionBar().hide(); //esconder ActionBar
         //databaseHelper = new DatabaseHelper(getApplicationContext());
         iniciarObjetos();
-        initObjects();
+        //initObjects();
     }
 
     private void registrod(){
@@ -56,22 +57,16 @@ public class CadastroActivity extends AppCompatActivity {
         registrod();
         //finishAffinity();
     }
-
+    public static String[] errosRegistro = {};
     private void postDataToSQLite(User user) {
         //if (!databaseHelper.checkUser(txtEmail.getText().toString().trim())) {
 
             //user.setNome(txtNome.getText().toString().trim());
             //user.setEmail(txtEmail.getText().toString().trim());
             //user.setSenha(txtSenha.getText().toString().trim());
-
-            long result = dbHelper.addUser(user);
-
             // Snack Bar to show success message that record saved successfully
-            if(result == -1) {
-                Toast.makeText(getApplicationContext(), dbHelper.getClass().getName(), Toast.LENGTH_LONG).show();
-            }
-            else {
-                Toast.makeText(getApplicationContext(),"Registro efetuado com sucesso!",Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), MainActivity.dbHelper.addUser(user), Toast.LENGTH_LONG).show();
+            if(CadastroActivity.result > 0){
                 Intent i = new Intent(CadastroActivity.this, FeedActivity.class);
                 startActivity(i);
                 finishAffinity();

@@ -7,22 +7,41 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
+import org.w3c.dom.Text;
+
+import br.com.sinapse.DBHelper.DatabaseHelper;
 import br.com.sinapse.R;
 import br.com.sinapse.controller.DBControl;
 import br.com.sinapse.model.User;
 
 
 public class MainActivity extends AppCompatActivity {
+    public static DBControl dbHelper;
+    private final AppCompatActivity activity = MainActivity.this;
+    private TextView userEmail, userSenha;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN); // Para o layout preencher toda tela do cel (remover a barra de tit.)
         getSupportActionBar().hide(); //esconder ActionBar
+        dbHelper = new DBControl(activity);
+        userEmail = (TextView) findViewById(R.id.txtLogin);
+        userSenha = (TextView) findViewById(R.id.txtPassword);
 
+    }
+
+    private boolean validarLogin(){
+        String email = userEmail.getText().toString();
+        String senha = userSenha.getText().toString();
+        User u = dbHelper.buscarUser(email, senha, activity);
+        if(u != null)
+            return true;
+        return false;
     }
 
 
@@ -34,9 +53,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void abrirFeed(View v){
-        Intent i = new Intent(MainActivity.this, FeedActivity.class);
-        startActivity(i);
-        finishAffinity();
+        if(validarLogin()) {
+            Intent i = new Intent(MainActivity.this, FeedActivity.class);
+            startActivity(i);
+            finishAffinity();
+        }//else Toast.makeText(getApplicationContext(), "Credenciais inválidas!", Toast.LENGTH_LONG).show();
         //finish();
     }
 
