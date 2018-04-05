@@ -15,10 +15,10 @@ public class User {
     instituicao varchar(50),
     curso varchar(100),
     periodo tinyint*/
-    private String nome, email, login, senha, ocupacao, instituicao, curso;
-    private int id, telefone, periodo;
+    private String nome, email, login, senha, ocupacao, instituicao, curso, telefone;
+    private int id, periodo;
 
-    public User(String nome, String email, String login, String senha, String ocupacao, String instituicao, String curso, int telefone, int periodo) {
+    public User(String nome, String email, String login, String senha, String ocupacao, String instituicao, String curso, String telefone, int periodo) {
         this.nome = nome;
         this.email = email;
         this.login = login;
@@ -71,7 +71,7 @@ public class User {
         return curso;
     }
 
-    public int getTelefone() {
+    public String getTelefone() {
         return telefone;
     }
 
@@ -111,7 +111,7 @@ public class User {
         this.id = id;
     }
 
-    public void setTelefone(int telefone) {
+    public void setTelefone(String telefone) {
         this.telefone = telefone;
     }
 

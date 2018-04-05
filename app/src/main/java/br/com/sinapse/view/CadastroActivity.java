@@ -38,16 +38,18 @@ public class CadastroActivity extends AppCompatActivity {
 
     private void registrod(){
         User user;
-        String nome, email, login, senha, ocup, curso, inst;
-        int periodo, fone, id;
+        String nome, email, login, senha, ocup, curso, inst, fone;
+        int periodo, id;
         nome = txtNome.getText().toString();
         email = txtEmail.getText().toString();
-        login = txtLogin.getText().toString();
+        if(txtLogin.getText().toString().equals("")){
+            login = email;
+        }else login = txtLogin.getText().toString();
         senha = txtSenha.getText().toString();
         ocup = txtOcup.getText().toString();
         curso = txtCurso.getText().toString();
         inst = txtInstituicao.getText().toString();
-        fone = Integer.parseInt(txtFone.getText().toString());
+        fone = txtFone.getText().toString();
         periodo = Integer.parseInt(txtPeriodo.getText().toString());
         user = new User(nome,email,login,senha,ocup,inst,curso,fone,periodo);
         postDataToSQLite(user);

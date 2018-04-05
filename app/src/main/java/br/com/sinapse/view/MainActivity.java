@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     public static DBControl dbHelper;
     private final AppCompatActivity activity = MainActivity.this;
     private TextView userEmail, userSenha;
+    public static User userLogado;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN); // Para o layout preencher toda tela do cel (remover a barra de tit.)
         getSupportActionBar().hide(); //esconder ActionBar
         dbHelper = new DBControl(activity);
-        userEmail = (TextView) findViewById(R.id.txtLogin);
+        userEmail = (TextView) findViewById(R.id.txtSingin);
         userSenha = (TextView) findViewById(R.id.txtPassword);
 
     }
@@ -38,8 +39,8 @@ public class MainActivity extends AppCompatActivity {
     private boolean validarLogin(){
         String email = userEmail.getText().toString();
         String senha = userSenha.getText().toString();
-        User u = dbHelper.buscarUser(email, senha, activity);
-        if(u != null)
+        MainActivity.userLogado= dbHelper.buscarUser(email, senha, activity);
+        if(MainActivity.userLogado != null)
             return true;
         return false;
     }

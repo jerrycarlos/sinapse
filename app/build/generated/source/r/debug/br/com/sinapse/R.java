@@ -3797,17 +3797,18 @@ public final class R {
     public static final int txtPassword=0x7f0800e6;
     public static final int txtPeriodo=0x7f0800e7;
     public static final int txtSenha=0x7f0800e8;
-    public static final int txtTema=0x7f0800e9;
-    public static final int txtTitle=0x7f0800ea;
-    public static final int txtVagas=0x7f0800eb;
-    public static final int uniform=0x7f0800ec;
-    public static final int up=0x7f0800ed;
-    public static final int useLogo=0x7f0800ee;
-    public static final int view_offset_helper=0x7f0800ef;
-    public static final int visible=0x7f0800f0;
-    public static final int withText=0x7f0800f1;
-    public static final int wrap=0x7f0800f2;
-    public static final int wrap_content=0x7f0800f3;
+    public static final int txtSingin=0x7f0800e9;
+    public static final int txtTema=0x7f0800ea;
+    public static final int txtTitle=0x7f0800eb;
+    public static final int txtVagas=0x7f0800ec;
+    public static final int uniform=0x7f0800ed;
+    public static final int up=0x7f0800ee;
+    public static final int useLogo=0x7f0800ef;
+    public static final int view_offset_helper=0x7f0800f0;
+    public static final int visible=0x7f0800f1;
+    public static final int withText=0x7f0800f2;
+    public static final int wrap=0x7f0800f3;
+    public static final int wrap_content=0x7f0800f4;
   }
   public static final class integer {
     public static final int abc_config_activityDefaultDur=0x7f090000;
