@@ -134,7 +134,7 @@ public class DBControl {
             user.setEmail(c.getString(c.getColumnIndexOrThrow(DBComands.COLUMN_USER_EMAIL)));
             user.setSenha(c.getString(c.getColumnIndexOrThrow(DBComands.COLUMN_USER_PASSWORD)));
             user.setLogin(c.getString(c.getColumnIndexOrThrow(DBComands.COLUMN_USER_LOGIN)));
-            user.setTelefone(c.getInt(c.getColumnIndexOrThrow(DBComands.COLUMN_USER_TEL)));
+            user.setTelefone(c.getString(c.getColumnIndexOrThrow(DBComands.COLUMN_USER_TEL)));
             user.setInstituicao(c.getString(c.getColumnIndexOrThrow(DBComands.COLUMN_USER_INSTITUICAO)));
             user.setCurso(c.getString(c.getColumnIndexOrThrow(DBComands.COLUMN_USER_CURSO)));
             user.setOcupacao(c.getString(c.getColumnIndexOrThrow(DBComands.COLUMN_USER_OCUP)));
@@ -196,7 +196,7 @@ public class DBControl {
             user.setEmail(c.getString(c.getColumnIndexOrThrow(DBComands.COLUMN_USER_EMAIL)));
             user.setSenha(c.getString(c.getColumnIndexOrThrow(DBComands.COLUMN_USER_PASSWORD)));
             user.setLogin(c.getString(c.getColumnIndexOrThrow(DBComands.COLUMN_USER_LOGIN)));
-            user.setTelefone(c.getInt(c.getColumnIndexOrThrow(DBComands.COLUMN_USER_TEL)));
+            user.setTelefone(c.getString(c.getColumnIndexOrThrow(DBComands.COLUMN_USER_TEL)));
             user.setInstituicao(c.getString(c.getColumnIndexOrThrow(DBComands.COLUMN_USER_INSTITUICAO)));
             user.setCurso(c.getString(c.getColumnIndexOrThrow(DBComands.COLUMN_USER_CURSO)));
             user.setOcupacao(c.getString(c.getColumnIndexOrThrow(DBComands.COLUMN_USER_OCUP)));
