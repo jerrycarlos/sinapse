@@ -1,6 +1,5 @@
 package br.com.sinapse.view;
 
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.WindowManager;
@@ -22,19 +21,19 @@ public class EventoActivity extends AppCompatActivity {
         //Intent it = getIntent();
         //_id = it.getStringExtra("evento");
         carregaObjetos();
-        //mostraEvento();
+        mostraEvento();
     }
 
     private void mostraEvento(){
         Evento e = FeedActivity.eventoId;
         tema.setText(e.getTema());
         descricao.setText(e.getDescricao());
-        eventoId.setText(e.getId());
+        eventoId.setText(e.getId().toString());
     }
 
     private void carregaObjetos(){
-        tema = (TextView) findViewById(R.id.txtTema);
-        data = (TextView) findViewById(R.id.txtData);
+        tema = (TextView) findViewById(R.id.txtTemaEvent);
+        data = (TextView) findViewById(R.id.txtDataEvent);
         duracao = (TextView) findViewById(R.id.txtDuracao);
         palestrante = (TextView) findViewById(R.id.txtPalestrante);
         vagas = (TextView) findViewById(R.id.txtVagas);
@@ -42,6 +41,6 @@ public class EventoActivity extends AppCompatActivity {
         categoria = (TextView) findViewById(R.id.txtCategoria);
         instituicao = (TextView) findViewById(R.id.txtInstituicao);
         horas = (TextView) findViewById(R.id.txtHora);
-        eventoId = (TextView) findViewById(R.id.eventId);
+        eventoId = (TextView) findViewById(R.id.txtEventId);
     }
 }

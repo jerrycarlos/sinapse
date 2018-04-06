@@ -59,7 +59,8 @@ public class FeedActivity extends AppCompatActivity {
         Intent i = new Intent(FeedActivity.this, EventoActivity.class);
         // Cria um Bundle que vai passar as informações de uma tela para a outra
         Bundle infos = new Bundle();
-
+        eventoId = mAdapter.getEvento(mRecyclerView.getChildAdapterPosition(v));
+        //Toast.makeText(getApplicationContext(),e.getTema(),Toast.LENGTH_LONG).show();
         //eventoId = mAdapter.getEvento(pos);
 // Adiciona a informação que quer passar informando uma chave e a String
         //Evento e = (Evento)adapter.getAdapter().getItem(pos);

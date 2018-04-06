@@ -32,6 +32,7 @@ public class LineAdapter  extends RecyclerView.Adapter<LineHolder> {
         holder.title.setText(evento.get(position).getTema());
         holder.descricao.setText(evento.get(position).getDescricao());
         holder.eventId.setText(evento.get(position).getId());
+        holder.btInfo.setOnClickListener(view -> getEvento(position));
     }
 
     public int getItemCount() {

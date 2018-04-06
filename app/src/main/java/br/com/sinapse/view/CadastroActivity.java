@@ -8,16 +8,22 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.Toast;
 
 import br.com.sinapse.DBHelper.DatabaseHelper;
 import br.com.sinapse.InputValidation;
 import br.com.sinapse.R;
 import br.com.sinapse.controller.DBControl;
+import br.com.sinapse.model.Instituicao;
 import br.com.sinapse.model.User;
 
 public class CadastroActivity extends AppCompatActivity {
     private EditText txtNome, txtEmail, txtLogin, txtSenha, txtOcup, txtCurso, txtInstituicao, txtPeriodo, txtFone;
+    private EditText pjNome, pjEmail, pjLogin, pjSenha, pjCnpj;
+    private LinearLayout layoutPessoaF, layoutPessoaJ;
+    private RadioButton rdPF, rdPJ;
     private Button btRegistro;
     private Context context;
     private DBControl dbHelper;
@@ -37,51 +43,78 @@ public class CadastroActivity extends AppCompatActivity {
     }
 
     private void registrod(){
-        User user;
-        String nome, email, login, senha, ocup, curso, inst, fone;
-        int periodo, id;
-        nome = txtNome.getText().toString();
-        email = txtEmail.getText().toString();
-        if(txtLogin.getText().toString().equals("")){
-            login = email;
-        }else login = txtLogin.getText().toString();
-        senha = txtSenha.getText().toString();
-        ocup = txtOcup.getText().toString();
-        curso = txtCurso.getText().toString();
-        inst = txtInstituicao.getText().toString();
-        fone = txtFone.getText().toString();
-        periodo = Integer.parseInt(txtPeriodo.getText().toString());
-        user = new User(nome,email,login,senha,ocup,inst,curso,fone,periodo);
-        postDataToSQLite(user);
+        if(rdPF.isChecked()) {
+            User user;
+            String nome, email, login, senha, ocup, curso, inst, fone;
+            int periodo, id;
+            nome = txtNome.getText().toString();
+            email = txtEmail.getText().toString();
+            if (txtLogin.getText().toString().equals("")) {
+                login = email;
+            } else login = txtLogin.getText().toString();
+            senha = txtSenha.getText().toString();
+            ocup = txtOcup.getText().toString();
+            curso = txtCurso.getText().toString();
+            inst = txtInstituicao.getText().toString();
+            fone = txtFone.getText().toString();
+            periodo = Integer.parseInt(txtPeriodo.getText().toString());
+            user = new User(nome, email, login, senha, ocup, inst, curso, fone, periodo);
+            MainActivity.userLogado = user;
+            postDataToSQLite(user);
+        }
+        else if(rdPJ.isChecked()){
+            Instituicao inst;
+            String nome, email, cnpj, login, senha;
+            nome = pjNome.getText().toString();
+            email = pjEmail.getText().toString();
+            cnpj = pjCnpj.getText().toString();
+            if (pjLogin.getText().toString().equals("")) {
+                login = email;
+            } else login = pjLogin.getText().toString();
+            senha = pjSenha.getText().toString();
+            inst = new Instituicao(cnpj,nome,email,login,senha);
+            MainActivity.instLogado = inst;
+            postDataToSQLite(inst);
+        }else{
+            Toast.makeText(getApplicationContext(),"Escolha uma opção (Aluno ou Instituição)",Toast.LENGTH_LONG).show();
+        }
     }
 
     public void registrar(View v){
         registrod();
         //finishAffinity();
     }
-    public static String[] errosRegistro = {};
+
     private void postDataToSQLite(User user) {
-        //if (!databaseHelper.checkUser(txtEmail.getText().toString().trim())) {
-
-            //user.setNome(txtNome.getText().toString().trim());
-            //user.setEmail(txtEmail.getText().toString().trim());
-            //user.setSenha(txtSenha.getText().toString().trim());
-            // Snack Bar to show success message that record saved successfully
-            Toast.makeText(getApplicationContext(), MainActivity.dbHelper.addUser(user), Toast.LENGTH_LONG).show();
-            if(CadastroActivity.result > 0){
-                Intent i = new Intent(CadastroActivity.this, FeedActivity.class);
-                startActivity(i);
-                finishAffinity();
-            }
-
-
-        //} else {
-       //     Toast.makeText(getApplicationContext(),"Insira os dados corretamente!",Toast.LENGTH_LONG).show();
-       // }
-
-
+        Toast.makeText(getApplicationContext(), MainActivity.dbHelper.addUser(user), Toast.LENGTH_LONG).show();
+        if(CadastroActivity.result > 0){
+            Intent i = new Intent(CadastroActivity.this, FeedActivity.class);
+            startActivity(i);
+            finishAffinity();
+        }
     }
 
+    private void postDataToSQLite(Instituicao inst){
+        Toast.makeText(getApplicationContext(), MainActivity.dbHelper.addUser(inst), Toast.LENGTH_LONG).show();
+        if(CadastroActivity.result > 0){
+            Intent i = new Intent(CadastroActivity.this, FeedActivity.class);
+            startActivity(i);
+            finishAffinity();
+        }
+    }
+
+    public void rdPessoa(View v){
+        switch (v.getId()){
+            case R.id.rdPF:
+                layoutPessoaJ.setVisibility(View.GONE);
+                layoutPessoaF.setVisibility(View.VISIBLE);
+                break;
+            case R.id.rdPJ:
+                layoutPessoaF.setVisibility(View.GONE);
+                layoutPessoaJ.setVisibility(View.VISIBLE);
+                break;
+        }
+    }
     private void initObjects() {
         dbHelper = new DBControl(activity);
         //databaseHelper = new DatabaseHelper(activity);
@@ -99,5 +132,14 @@ public class CadastroActivity extends AppCompatActivity {
         txtPeriodo = (EditText) findViewById(R.id.txtPeriodo);
         txtFone = (EditText) findViewById(R.id.txtFone);
         btRegistro = (Button) findViewById(R.id.btRegistro);
+        layoutPessoaF = (LinearLayout) findViewById(R.id.layoutPF);
+        layoutPessoaJ = (LinearLayout) findViewById(R.id.layoutPJ);
+        rdPF = (RadioButton) findViewById(R.id.rdPF);
+        rdPJ = (RadioButton) findViewById(R.id.rdPJ);
+        pjNome = (EditText) findViewById(R.id.pjNome);
+        pjEmail = (EditText) findViewById(R.id.pjEmail);
+        pjLogin = (EditText) findViewById(R.id.pjLogin);
+        pjSenha = (EditText) findViewById(R.id.pjSenha);
+        pjCnpj = (EditText) findViewById(R.id.pjCnpj);
     }
 }

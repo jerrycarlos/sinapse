@@ -16,6 +16,7 @@ import org.w3c.dom.Text;
 import br.com.sinapse.DBHelper.DatabaseHelper;
 import br.com.sinapse.R;
 import br.com.sinapse.controller.DBControl;
+import br.com.sinapse.model.Instituicao;
 import br.com.sinapse.model.User;
 
 
@@ -24,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     private final AppCompatActivity activity = MainActivity.this;
     private TextView userEmail, userSenha;
     public static User userLogado;
+    public static Instituicao instLogado;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

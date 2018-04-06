@@ -15,15 +15,17 @@
         <RadioGroup
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="3"
+            android:layout_weight="0"
             android:orientation="horizontal"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <RadioButton
                 android:id="@+id/rdPF"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:checked="true"
+                android:onClick="rdPessoa"
                 android:text="Aluno / Palestrante" />
 
             <RadioButton
@@ -31,6 +33,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:onClick="rdPessoa"
                 android:text="Instituição" />
         </RadioGroup>
 
@@ -45,6 +48,7 @@
                 android:orientation="vertical">
 
                 <LinearLayout
+                    android:id="@+id/layoutPJ"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
@@ -52,127 +56,147 @@
                     android:visibility="gone">
 
                     <EditText
-                        android:id="@+id/textView"
+                        android:id="@+id/pjCnpj"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
                         android:ems="10"
-                        android:text="TextView" />
+                        android:hint="CNPJ"
+                        android:inputType="number"
+                        android:maxLength="14" />
 
                     <EditText
-                        android:id="@+id/textView15"
+                        android:id="@+id/pjNome"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
                         android:ems="10"
-                        android:text="TextView" />
+                        android:hint="Nome"
+                        android:inputType="text|textPersonName" />
 
                     <EditText
-                        android:id="@+id/textView14"
+                        android:id="@+id/pjSenha"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
                         android:ems="10"
-                        android:text="TextView" />
+                        android:hint="Senha"
+                        android:inputType="text|textPassword" />
 
                     <EditText
-                        android:id="@+id/textView13"
+                        android:id="@+id/pjLogin"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
                         android:ems="10"
-                        android:text="TextView" />
+                        android:hint="Login (opcional)"
+                        android:inputType="text|textPersonName" />
 
                     <EditText
-                        android:id="@+id/textView12"
+                        android:id="@+id/pjCep"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
                         android:ems="10"
-                        android:text="TextView" />
+                        android:hint="CEP"
+                        android:inputType="number"
+                        android:maxLength="8"
+                        android:password="false"
+                        android:phoneNumber="false" />
 
                     <EditText
-                        android:id="@+id/textView11"
+                        android:id="@+id/pjRua"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
                         android:ems="10"
-                        android:text="TextView" />
+                        android:hint="Logadouro"
+                        android:inputType="text" />
 
                     <EditText
-                        android:id="@+id/textView10"
+                        android:id="@+id/pjNumero"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
                         android:ems="10"
-                        android:text="TextView" />
+                        android:hint="Número"
+                        android:inputType="numberSigned" />
 
                     <EditText
-                        android:id="@+id/textView9"
+                        android:id="@+id/pjBairro"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
                         android:ems="10"
-                        android:text="TextView" />
+                        android:hint="Bairro"
+                        android:inputType="text" />
 
                     <EditText
-                        android:id="@+id/textView8"
+                        android:id="@+id/pjCidade"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
                         android:ems="10"
-                        android:text="TextView" />
+                        android:hint="Cidade"
+                        android:inputType="text" />
 
                     <EditText
-                        android:id="@+id/textView7"
+                        android:id="@+id/pjEstado"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
                         android:ems="10"
-                        android:text="TextView" />
+                        android:hint="Estado"
+                        android:inputType="text" />
 
                     <EditText
-                        android:id="@+id/textView6"
+                        android:id="@+id/pjPais"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
                         android:ems="10"
-                        android:text="TextView" />
+                        android:hint="País"
+                        android:inputType="text" />
 
                     <EditText
-                        android:id="@+id/textView5"
+                        android:id="@+id/pjFone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
                         android:ems="10"
-                        android:text="TextView" />
+                        android:hint="Telefone"
+                        android:inputType="phone" />
 
                     <EditText
-                        android:id="@+id/textView4"
+                        android:id="@+id/pjSite"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
                         android:ems="10"
-                        android:text="TextView" />
+                        android:hint="Site"
+                        android:inputType="text" />
 
                     <EditText
-                        android:id="@+id/textView3"
+                        android:id="@+id/pjCeo"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
                         android:ems="10"
-                        android:text="TextView" />
+                        android:hint="Diretor"
+                        android:inputType="textPersonName" />
 
                     <EditText
-                        android:id="@+id/textView2"
+                        android:id="@+id/pjEmail"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
                         android:ems="10"
-                        android:text="TextView" />
+                        android:hint="Email"
+                        android:inputType="textEmailAddress" />
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/layoutPF"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="2"
@@ -222,7 +246,7 @@
                         android:layout_weight="2"
                         android:ems="10"
                         android:hint="Telefone"
-                        android:inputType="number|phone" />
+                        android:inputType="phone" />
 
                     <EditText
                         android:id="@+id/txtInstituicao"
@@ -249,7 +273,7 @@
                         android:layout_weight="2"
                         android:ems="10"
                         android:hint="Período"
-                        android:inputType="number|numberSigned" />
+                        android:inputType="phone" />
 
                     <EditText
                         android:id="@+id/txtOcupacao"
@@ -269,6 +293,7 @@
             android:id="@+id/btRegistro"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="0"
             android:onClick="registrar"
             android:text="Registrar" />
     </LinearLayout>

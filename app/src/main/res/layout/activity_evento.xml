@@ -23,26 +23,26 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/txtTema"
+                android:id="@+id/txtTemaEvent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="Tema"
-                android:textSize="30sp" />
+                android:textSize="40sp" />
 
             <TextView
                 android:id="@+id/lblData"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/txtTema"
+                android:layout_below="@+id/txtTemaEvent"
                 android:text="Data:"
                 android:textSize="25sp" />
 
             <TextView
-                android:id="@+id/txtData"
+                android:id="@+id/txtDataEvent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/txtTema"
+                android:layout_below="@+id/txtTemaEvent"
                 android:layout_marginTop="5dp"
                 android:layout_toRightOf="@+id/lblData"
                 android:text="01/01/0001"
@@ -52,7 +52,7 @@
                 android:id="@+id/lblVagas"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/txtTema"
+                android:layout_below="@+id/txtTemaEvent"
                 android:layout_toLeftOf="@+id/txtVagas"
                 android:text="Vagas:"
                 android:textSize="25sp" />
@@ -61,8 +61,8 @@
                 android:id="@+id/txtVagas"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignRight="@+id/txtTema"
-                android:layout_below="@+id/txtTema"
+                android:layout_alignRight="@+id/txtTemaEvent"
+                android:layout_below="@+id/txtTemaEvent"
                 android:layout_marginTop="5dp"
                 android:text="5555"
                 android:textSize="20sp" />
@@ -71,7 +71,7 @@
                 android:id="@+id/lblPalestrante"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/txtData"
+                android:layout_below="@+id/txtDataEvent"
                 android:text="Palestrante:"
                 android:textSize="25sp" />
 
@@ -79,7 +79,7 @@
                 android:id="@+id/txtPalestrante"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/txtData"
+                android:layout_below="@+id/txtDataEvent"
                 android:layout_marginTop="5dp"
                 android:layout_toRightOf="@+id/lblPalestrante"
                 android:text="Josefino da Silva"
@@ -93,7 +93,7 @@
                 android:layout_marginTop="5dp"
                 android:gravity="center"
                 android:text="Descrição:"
-                android:textSize="20sp" />
+                android:textSize="25sp" />
 
             <TextView
                 android:id="@+id/txtDescricao"
@@ -181,12 +181,13 @@
                 android:textSize="20sp" />
 
             <TextView
-                android:id="@+id/txtEventoId"
+                android:id="@+id/txtEventId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/lblHora"
+                android:layout_marginTop="5dp"
                 android:text="#_id"
-                android:textSize="15sp" />
+                android:textSize="22sp" />
         </RelativeLayout>
 
         <android.support.design.widget.FloatingActionButton

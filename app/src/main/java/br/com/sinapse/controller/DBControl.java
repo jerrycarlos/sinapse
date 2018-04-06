@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import br.com.sinapse.DBHelper.DBComands;
 import br.com.sinapse.DBHelper.DatabaseHelper;
+import br.com.sinapse.model.Instituicao;
 import br.com.sinapse.model.User;
 import br.com.sinapse.view.CadastroActivity;
 import br.com.sinapse.view.MainActivity;
@@ -24,6 +25,7 @@ public class DBControl {
     public DBControl(Context context){
         banco = new DatabaseHelper(context);
         this.db = banco.getWritableDatabase();
+        banco.onUpgrade(db, DBComands.DATABASE_VERSION,2);
     }
     /**
      * This method is to create user record
@@ -48,6 +50,7 @@ public class DBControl {
             return "Login já existe!";
         clause = DBComands.COLUMN_USER_TEL + " = ?";
         clauses[0] = String.valueOf(user.getTelefone());
+        c = db.query(DBComands.TABLE_USER,retorno,clause,clauses,null,null,null);
         //verifica se telefone ja existe
         if(c.getCount()>0)
             return "Telefone já cadastrado!";
@@ -66,6 +69,47 @@ public class DBControl {
             values.put(DBComands.COLUMN_USER_CURSO, user.getCurso());
             values.put(DBComands.COLUMN_USER_PERIODO, user.getPeriodo());
             CadastroActivity.result = db.insert(DBComands.TABLE_USER, null, values);
+            if (CadastroActivity.result != -1)
+                db.setTransactionSuccessful();
+        } finally {
+            db.endTransaction();
+            return "Registro efetuado com sucesso!";
+        }
+    }
+
+    public String addUser(Instituicao inst) {
+        long result = -1;
+        SQLiteDatabase db = banco.getReadableDatabase();
+        String[] retorno = {"*"};
+        String clause = DBComands.COLUMN_PJ_CNPJ + " = ?";
+        String[] clauses = { inst.getCnpj() };
+        Cursor c = db.query(DBComands.TABLE_INSTITUICAO,retorno,clause,clauses,null,null,null);
+        //verifica se cnpj ja existe
+        if(c.getCount()>0)
+            return "CNPJ já cadastrado!";
+        //verifica se email ja existe
+        clause = DBComands.COLUMN_PJ_EMAIL + " = ?";
+        clauses[0] = inst.getEmail();
+        c = db.query(DBComands.TABLE_INSTITUICAO,retorno,clause,clauses,null,null,null);
+        if(c.getCount()>0)
+            return "Email já cadastrado!";
+        //verifica se login ja existe
+        clause = DBComands.COLUMN_PJ_LOGIN + " = ?";
+        clauses[0] = inst.getLogin();
+        c = db.query(DBComands.TABLE_INSTITUICAO,retorno,clause,clauses,null,null,null);
+        if(c.getCount()>0)
+            return "Login já existe!";
+
+        db = banco.getWritableDatabase();
+        db.beginTransaction();
+        try {
+            ContentValues values = new ContentValues();
+            values.put(DBComands.COLUMN_PJ_CNPJ, inst.getCnpj());
+            values.put(DBComands.COLUMN_PJ_NOME, inst.getNome());
+            values.put(DBComands.COLUMN_PJ_EMAIL, inst.getEmail());
+            values.put(DBComands.COLUMN_PJ_LOGIN, inst.getLogin());
+            values.put(DBComands.COLUMN_PJ_PASSWORD, inst.getSenha());
+            CadastroActivity.result = db.insert(DBComands.TABLE_INSTITUICAO, null, values);
             if (CadastroActivity.result != -1)
                 db.setTransactionSuccessful();
         } finally {
