@@ -145,6 +145,7 @@ public class DBControl {
 
     public User verificaUser(User u, Context context){
         User user = null;
+        //teste commit
         SQLiteDatabase db = banco.getReadableDatabase();
         String[] retorno = {DBComands.COLUMN_USER_PASSWORD};
         String clause = DBComands.COLUMN_USER_EMAIL + " = ? ";
