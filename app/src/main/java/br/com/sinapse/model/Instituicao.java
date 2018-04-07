@@ -50,6 +50,11 @@ public class Instituicao {
 
     }
 
+    public Instituicao(int id, String nome){
+        this.id = id;
+        this.nome = nome;
+    }
+
     public void setCnpj(String cnpj) {
         this.cnpj = cnpj;
     }

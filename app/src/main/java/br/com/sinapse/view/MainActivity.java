@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView userEmail, userSenha;
     public static User userLogado;
     public static Instituicao instLogado;
+    public static long result = -1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean validarLogin(){
         String email = userEmail.getText().toString();
         String senha = userSenha.getText().toString();
-        MainActivity.userLogado= dbHelper.buscarUser(email, senha, activity);
+        MainActivity.userLogado = dbHelper.buscarUser(email, senha, activity);
         if(MainActivity.userLogado != null)
             return true;
         return false;

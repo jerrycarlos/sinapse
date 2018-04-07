@@ -7,6 +7,8 @@ import android.widget.TextView;
 
 import br.com.sinapse.R;
 import br.com.sinapse.model.Evento;
+import br.com.sinapse.model.Instituicao;
+import br.com.sinapse.model.User;
 
 public class EventoActivity extends AppCompatActivity {
     private String _id = "";
@@ -28,7 +30,17 @@ public class EventoActivity extends AppCompatActivity {
         Evento e = FeedActivity.eventoId;
         tema.setText(e.getTema());
         descricao.setText(e.getDescricao());
-        eventoId.setText(e.getId().toString());
+        eventoId.setText("#"+String.valueOf(e.getId()));
+        User u = MainActivity.dbHelper.buscarUser(e.getFkPalestrante());
+        palestrante.setText(u.getNome());
+        Instituicao i = MainActivity.dbHelper.buscaInstituicao(e.getFkInstituicao());
+        instituicao.setText(i.getNome());
+        data.setText(e.getData());
+        duracao.setText(String.valueOf(e.getDuracao()));
+        vagas.setText(String.valueOf(e.getnVagas()));
+        horas.setText(String.valueOf(e.getQtdHora()));
+        categoria.setText(e.getCategoria());
+
     }
 
     private void carregaObjetos(){
@@ -39,7 +51,7 @@ public class EventoActivity extends AppCompatActivity {
         vagas = (TextView) findViewById(R.id.txtVagas);
         descricao = (TextView) findViewById(R.id.txtDescricao);
         categoria = (TextView) findViewById(R.id.txtCategoria);
-        instituicao = (TextView) findViewById(R.id.txtInstituicao);
+        instituicao = (TextView) findViewById(R.id.txtLocal);
         horas = (TextView) findViewById(R.id.txtHora);
         eventoId = (TextView) findViewById(R.id.txtEventId);
     }

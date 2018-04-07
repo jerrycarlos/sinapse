@@ -15,10 +15,12 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import br.com.sinapse.CadastroEventoActivity;
 import br.com.sinapse.R;
 import br.com.sinapse.model.Evento;
 import br.com.sinapse.repository.EventoFactory;
@@ -28,6 +30,8 @@ public class FeedActivity extends AppCompatActivity {
     private int id = 1;
     public LineAdapter mAdapter;
     public static Evento eventoId;
+    public static long result;
+    private TextView labelUser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,16 +41,22 @@ public class FeedActivity extends AppCompatActivity {
         //mRecyclerView = new RecyclerView();
         //loadEvento();
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_list);
-
+        this.result = MainActivity.result;
         mAdapter = new LineAdapter(new ArrayList<>(0));
         setupRecycler();
+        labelUser = (TextView)findViewById(R.id.labelUser);
+        labelUser.setText("Olá " + MainActivity.userLogado.getNome());
+        loadEvento();
     }
 
     private void loadEvento(){
-        Evento evento = EventoFactory.makeEvento();
-        evento.setId("#"+id);
+        //Evento evento = EventoFactory.makeEvento();
+        //evento.setId(id);
         id++;
-        mAdapter.updateList(evento);
+        ArrayList<Evento> e = MainActivity.dbHelper.buscaListEvento();
+        if(e!=null)
+            for(Evento evento : e)
+                mAdapter.updateList(evento);
         //mAdapter.notifyDataSetChanged();
 
     }
@@ -55,6 +65,10 @@ public class FeedActivity extends AppCompatActivity {
         loadEvento();
     }
 
+    /**
+     * Abre informacao do evento selecionado
+     * @param v
+     */
     public void infoEvento(View v){
         Intent i = new Intent(FeedActivity.this, EventoActivity.class);
         // Cria um Bundle que vai passar as informações de uma tela para a outra
@@ -73,13 +87,25 @@ public class FeedActivity extends AppCompatActivity {
         startActivity(i);
     }
 
+
+    public void abreCadastroEvento(View v){
+        Intent i = new Intent(FeedActivity.this, CadastroEventoActivity.class);
+        startActivity(i);
+        finishAffinity();
+    }
+
+    public void btLogout(View v){
+        Intent i = new Intent(FeedActivity.this, MainActivity.class);
+        startActivity(i);
+        finishAffinity();
+    }
+
     private void setupRecycler() {
         // Criando o StaggeredGridLayoutManager com duas colunas, descritas no primeiro argumento
         // e no sentido vertical (como uma lista).
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         //mRecyclerView = new RecyclerView(getApplicationContext());
         mRecyclerView.setLayoutManager(layoutManager);
-
         // Adiciona o adapter que irá anexar os objetos à lista.
         //mAdapter = new LineAdapter(new ArrayList<>(0));
         mRecyclerView.setAdapter(mAdapter);

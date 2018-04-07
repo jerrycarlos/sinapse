@@ -19,7 +19,9 @@ import br.com.sinapse.model.User;
 public class DatabaseHelper extends SQLiteOpenHelper {
     private SQLiteDatabase db;
     // drop table sql query
-    private String DROP_USER_TABLE = "DROP TABLE IF EXISTS " + DBComands.TABLE_USER;
+    private final String DROP_USER_TABLE = "DROP TABLE IF EXISTS " + DBComands.TABLE_USER;
+    private final String DROP_PJ_TABLE = "DROP TABLE IF EXISTS " + DBComands.TABLE_INSTITUICAO;
+    private final String DROP_EVENTO_TABLE = "DROP TABLE IF EXISTS " + DBComands.TABLE_EVENT;
 
     /**
      * Constructor
@@ -35,6 +37,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         db.execSQL(DBComands.CREATE_USER_TABLE);
         db.execSQL(DBComands.CREATE_TABLE_INSTITUICAO);
+        db.execSQL(DBComands.CREATE_TABLE_EVENTO);
+        db.execSQL(DBComands.CREATE_TABLE_EVENTO_USER);
     }
 
 
@@ -42,7 +46,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
         if (oldVersion < newVersion){//Drop User Table if exist
-            //db.execSQL(DROP_USER_TABLE);
+            //db.execSQL(DROP_EVENTO_TABLE);
             // Create tables again
             onCreate(db);
         }

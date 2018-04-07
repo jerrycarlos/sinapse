@@ -57,7 +57,9 @@ public class CadastroActivity extends AppCompatActivity {
             curso = txtCurso.getText().toString();
             inst = txtInstituicao.getText().toString();
             fone = txtFone.getText().toString();
-            periodo = Integer.parseInt(txtPeriodo.getText().toString());
+            if(txtPeriodo.getText().toString().equals(""))
+                periodo = 0;
+            else periodo = Integer.parseInt(txtPeriodo.getText().toString());
             user = new User(nome, email, login, senha, ocup, inst, curso, fone, periodo);
             MainActivity.userLogado = user;
             postDataToSQLite(user);
@@ -87,8 +89,8 @@ public class CadastroActivity extends AppCompatActivity {
 
     private void postDataToSQLite(User user) {
         Toast.makeText(getApplicationContext(), MainActivity.dbHelper.addUser(user), Toast.LENGTH_LONG).show();
-        if(CadastroActivity.result > 0){
-            Intent i = new Intent(CadastroActivity.this, FeedActivity.class);
+        if(MainActivity.result > 0){
+            Intent i = new Intent(CadastroActivity.this, MainActivity.class);
             startActivity(i);
             finishAffinity();
         }
@@ -96,8 +98,8 @@ public class CadastroActivity extends AppCompatActivity {
 
     private void postDataToSQLite(Instituicao inst){
         Toast.makeText(getApplicationContext(), MainActivity.dbHelper.addUser(inst), Toast.LENGTH_LONG).show();
-        if(CadastroActivity.result > 0){
-            Intent i = new Intent(CadastroActivity.this, FeedActivity.class);
+        if(MainActivity.result > 0){
+            Intent i = new Intent(CadastroActivity.this, MainActivity.class);
             startActivity(i);
             finishAffinity();
         }

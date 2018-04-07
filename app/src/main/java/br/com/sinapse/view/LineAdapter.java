@@ -31,7 +31,7 @@ public class LineAdapter  extends RecyclerView.Adapter<LineHolder> {
     public void onBindViewHolder(LineHolder holder, int position) {
         holder.title.setText(evento.get(position).getTema());
         holder.descricao.setText(evento.get(position).getDescricao());
-        holder.eventId.setText(evento.get(position).getId());
+        holder.eventId.setText("#" + String.valueOf(evento.get(position).getId()));
         holder.btInfo.setOnClickListener(view -> getEvento(position));
     }
 
@@ -45,6 +45,7 @@ public class LineAdapter  extends RecyclerView.Adapter<LineHolder> {
 
     // Método responsável por inserir um novo usuário na lista
     //e notificar que há novos itens.
+
     private void insertItem(Evento evento) {
         this.evento.add(evento);
         notifyDataSetChanged();
