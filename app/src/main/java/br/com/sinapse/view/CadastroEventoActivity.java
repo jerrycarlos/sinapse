@@ -53,8 +53,24 @@ public class CadastroEventoActivity extends AppCompatActivity {
     public void cadastrarEvento(View v){
         String tema, descricao;
         int fkPalestrante, fkInstituicao;
+        if(txtEventoTema.getText().toString().equals("")){
+            Toast.makeText(getApplicationContext(),"Insira um tema para o evento!",Toast.LENGTH_SHORT).show();
+            return;
+        }else if(txtEventoTema.getText().toString().length() < 4){
+            Toast.makeText(getApplicationContext(),"Tema com nome muito curto.",Toast.LENGTH_LONG).show();
+            return;
+        }
         tema = txtEventoTema.getText().toString();
+
+        if(txtEventoDescricao.getText().toString().equals("")){
+            Toast.makeText(getApplicationContext(),"Insira uma descrição para o evento!",Toast.LENGTH_SHORT).show();
+            return;
+        }else if(txtEventoDescricao.getText().toString().length() < 4){
+            Toast.makeText(getApplicationContext(),"Descrição muito curta.",Toast.LENGTH_LONG).show();
+            return;
+        }
         descricao = txtEventoDescricao.getText().toString();
+
         fkPalestrante = MainActivity.userLogado.getId();
         fkInstituicao = MainActivity.dbHelper.buscaIdInstituicao(s.getSelectedItem().toString());
         Evento evento = new Evento(tema,descricao,fkPalestrante,fkInstituicao);

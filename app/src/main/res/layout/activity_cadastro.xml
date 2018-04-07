@@ -80,8 +80,9 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
                         android:ems="10"
-                        android:hint="Senha"
-                        android:inputType="text|textPassword" />
+                        android:hint="Senha (min. 6 caracteres)"
+                        android:inputType="text|textPassword"
+                        android:maxLength="16" />
 
                     <EditText
                         android:id="@+id/pjLogin"
@@ -91,6 +92,15 @@
                         android:ems="10"
                         android:hint="Login (opcional)"
                         android:inputType="text|textPersonName" />
+
+                    <EditText
+                        android:id="@+id/pjEmail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:ems="10"
+                        android:hint="Email"
+                        android:inputType="textEmailAddress" />
 
                     <EditText
                         android:id="@+id/pjCep"
@@ -120,7 +130,7 @@
                         android:layout_weight="2"
                         android:ems="10"
                         android:hint="Número"
-                        android:inputType="numberSigned" />
+                        android:inputType="number" />
 
                     <EditText
                         android:id="@+id/pjBairro"
@@ -165,7 +175,7 @@
                         android:layout_weight="2"
                         android:ems="10"
                         android:hint="Telefone"
-                        android:inputType="phone" />
+                        android:inputType="number" />
 
                     <EditText
                         android:id="@+id/pjSite"
@@ -185,14 +195,6 @@
                         android:hint="Diretor"
                         android:inputType="textPersonName" />
 
-                    <EditText
-                        android:id="@+id/pjEmail"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="2"
-                        android:ems="10"
-                        android:hint="Email"
-                        android:inputType="textEmailAddress" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -236,8 +238,9 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
                         android:ems="10"
-                        android:hint="Senha"
-                        android:inputType="text|textPassword" />
+                        android:hint="Senha (min. 6 caracteres)"
+                        android:inputType="text|textPassword"
+                        android:maxLength="16" />
 
                     <EditText
                         android:id="@+id/txtFone"
@@ -246,7 +249,7 @@
                         android:layout_weight="2"
                         android:ems="10"
                         android:hint="Telefone"
-                        android:inputType="phone" />
+                        android:inputType="number" />
 
                     <EditText
                         android:id="@+id/txtInstituicao"
@@ -273,7 +276,7 @@
                         android:layout_weight="2"
                         android:ems="10"
                         android:hint="Período"
-                        android:inputType="phone" />
+                        android:inputType="number" />
 
                     <EditText
                         android:id="@+id/txtOcupacao"
