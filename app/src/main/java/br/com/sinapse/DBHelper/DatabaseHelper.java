@@ -47,6 +47,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         if (oldVersion < newVersion){//Drop User Table if exist
             //db.execSQL(DROP_EVENTO_TABLE);
+            //db.execSQL(DROP_PJ_TABLE);
+            //db.execSQL(DROP_USER_TABLE);
             // Create tables again
             onCreate(db);
         }

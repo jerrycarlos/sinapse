@@ -1,29 +1,19 @@
 package br.com.sinapse.view;
 
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.AlertDialogLayout;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.AdapterView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import br.com.sinapse.CadastroEventoActivity;
 import br.com.sinapse.R;
 import br.com.sinapse.model.Evento;
-import br.com.sinapse.repository.EventoFactory;
 
 public class FeedActivity extends AppCompatActivity {
     RecyclerView mRecyclerView;
@@ -31,7 +21,8 @@ public class FeedActivity extends AppCompatActivity {
     public LineAdapter mAdapter;
     public static Evento eventoId;
     public static long result;
-    private TextView labelUser;
+    private TextView labelUser, labelNoEvento;
+    private RecyclerView recyclerListFeed;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +36,8 @@ public class FeedActivity extends AppCompatActivity {
         mAdapter = new LineAdapter(new ArrayList<>(0));
         setupRecycler();
         labelUser = (TextView)findViewById(R.id.labelUser);
+        labelNoEvento = (TextView) findViewById(R.id.txtNoEvents);
+        recyclerListFeed = (RecyclerView) findViewById(R.id.recycler_list);
         labelUser.setText("Olá " + MainActivity.userLogado.getNome());
         loadEvento();
     }
@@ -54,9 +47,17 @@ public class FeedActivity extends AppCompatActivity {
         //evento.setId(id);
         id++;
         ArrayList<Evento> e = MainActivity.dbHelper.buscaListEvento();
-        if(e!=null)
-            for(Evento evento : e)
+        if(e!=null) {
+            labelNoEvento.setVisibility(View.GONE);
+            recyclerListFeed.setVisibility(View.VISIBLE);
+            for (Evento evento : e)
                 mAdapter.updateList(evento);
+        }
+        else{
+            recyclerListFeed.setVisibility(View.GONE);
+            labelNoEvento.setVisibility(View.VISIBLE);
+
+        }
         //mAdapter.notifyDataSetChanged();
 
     }

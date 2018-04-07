@@ -18,34 +18,9 @@
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/btAdd"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
-        android:clickable="true"
-        android:onClick="setupView"
-        android:scaleType="center"
-        app:backgroundTint="?attr/actionModeSplitBackground"
-        app:fabSize="normal"
-        app:srcCompat="@android:drawable/ic_menu_add"
-        tools:targetApi="n_mr1" />
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/floatingActionButton2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|center"
-        android:clickable="true"
-        android:onClick="btLogout"
-        android:scaleType="center"
-        app:backgroundTint="?attr/actionModeSplitBackground"
-        app:fabSize="normal"
-        app:srcCompat="@android:drawable/ic_lock_power_off" />
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/btAdd2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|left"
+        android:layout_gravity="bottom|right"
         android:clickable="true"
         android:onClick="abreCadastroEvento"
         android:scaleType="center"
@@ -54,11 +29,34 @@
         app:srcCompat="@android:drawable/ic_menu_add"
         tools:targetApi="n_mr1" />
 
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/btLogoutFeed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center"
+        android:clickable="true"
+        android:onClick="btLogout"
+        android:scaleType="center"
+        app:backgroundTint="?attr/actionModeSplitBackground"
+        app:fabSize="normal"
+        app:srcCompat="@android:drawable/ic_lock_power_off"
+        tools:targetApi="n_mr1" />
+
     <TextView
         android:id="@+id/labelUser"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="Ola Fulano" />
+
+    <TextView
+        android:id="@+id/txtNoEvents"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:text='Não há eventos no momento, cadastre o primeiro evento no botão "+" abaixo.'
+        android:visibility="gone" />
 
 </FrameLayout>

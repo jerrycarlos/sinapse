@@ -1,4 +1,4 @@
-package br.com.sinapse;
+package br.com.sinapse.view;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -11,11 +11,8 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import br.com.sinapse.R;
 import br.com.sinapse.model.Evento;
-import br.com.sinapse.model.Instituicao;
-import br.com.sinapse.view.CadastroActivity;
-import br.com.sinapse.view.FeedActivity;
-import br.com.sinapse.view.MainActivity;
 
 public class CadastroEventoActivity extends AppCompatActivity {
     private String array_spinner[];
@@ -34,9 +31,15 @@ public class CadastroEventoActivity extends AppCompatActivity {
 
     private void preencheListaInstituicao(){
         ArrayList<String> array_spinner = MainActivity.dbHelper.buscaInstituicao();
-        ArrayAdapter adapter = new ArrayAdapter(this,
-                android.R.layout.simple_spinner_item, array_spinner);
-        s.setAdapter(adapter);
+        if(array_spinner != null) {
+            ArrayAdapter adapter = new ArrayAdapter(this,
+                    android.R.layout.simple_spinner_item, array_spinner);
+            s.setAdapter(adapter);
+        }else{
+            Toast.makeText(getApplicationContext(),"Não há instituições cadastradas no momento.",Toast.LENGTH_LONG).show();
+            Intent i = new Intent(CadastroEventoActivity.this, FeedActivity.class);
+            startActivity(i);
+        }
     }
 
     private void inserirEventoDB(Evento e){

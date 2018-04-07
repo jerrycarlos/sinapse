@@ -33,7 +33,7 @@
         <activity android:name="br.com.sinapse.view.FeedActivity" />
         <activity android:name="br.com.sinapse.view.CadastroActivity" />
         <activity android:name="br.com.sinapse.view.EventoActivity" />
-        <activity android:name="br.com.sinapse.CadastroEventoActivity" />
+        <activity android:name="br.com.sinapse.view.CadastroEventoActivity" />
 
         <meta-data
             android:name="android.support.VERSION"

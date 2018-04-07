@@ -119,10 +119,10 @@ activity#br.com.sinapse.view.EventoActivity
 ADDED from C:\Users\Jerry Jr\AndroidStudioProjects\Sinapse\app\src\main\AndroidManifest.xml:27:9-57
 	android:name
 		ADDED from C:\Users\Jerry Jr\AndroidStudioProjects\Sinapse\app\src\main\AndroidManifest.xml:27:19-54
-activity#br.com.sinapse.CadastroEventoActivity
-ADDED from C:\Users\Jerry Jr\AndroidStudioProjects\Sinapse\app\src\main\AndroidManifest.xml:28:9-69
+activity#br.com.sinapse.view.CadastroEventoActivity
+ADDED from C:\Users\Jerry Jr\AndroidStudioProjects\Sinapse\app\src\main\AndroidManifest.xml:28:9-74
 	android:name
-		ADDED from C:\Users\Jerry Jr\AndroidStudioProjects\Sinapse\app\src\main\AndroidManifest.xml:28:19-57
+		ADDED from C:\Users\Jerry Jr\AndroidStudioProjects\Sinapse\app\src\main\AndroidManifest.xml:28:19-62
 uses-sdk
 INJECTED from C:\Users\Jerry Jr\AndroidStudioProjects\Sinapse\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from C:\Users\Jerry Jr\AndroidStudioProjects\Sinapse\app\src\main\AndroidManifest.xml
