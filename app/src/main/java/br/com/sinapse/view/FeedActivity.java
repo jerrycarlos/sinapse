@@ -92,7 +92,7 @@ public class FeedActivity extends AppCompatActivity {
     public void abreCadastroEvento(View v){
         Intent i = new Intent(FeedActivity.this, CadastroEventoActivity.class);
         startActivity(i);
-        finishAffinity();
+        //finishAffinity();
     }
 
     public void btLogout(View v){
