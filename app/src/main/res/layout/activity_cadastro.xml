@@ -249,7 +249,8 @@
                         android:layout_weight="2"
                         android:ems="10"
                         android:hint="Telefone"
-                        android:inputType="number" />
+                        android:inputType="number"
+                        android:maxLength="12" />
 
                     <EditText
                         android:id="@+id/txtInstituicao"

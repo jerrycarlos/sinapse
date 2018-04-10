@@ -42,12 +42,15 @@ public class CadastroActivity extends AppCompatActivity {
         //initObjects();
     }
 
+    /**
+     *
+     */
     private void registrod(){
         if(rdPF.isChecked()) {
             User user;
             String nome, email, login, senha, ocup, curso, inst, fone;
             int periodo, id;
-            if(txtNome.getText().toString().equals("")){
+            if(txtNome.getText().toString().trim().equals("")){
                 Toast.makeText(getApplicationContext(),"Insira um nome!",Toast.LENGTH_SHORT).show();
                 return;
             }else if(txtNome.getText().toString().length() < 4){
@@ -55,7 +58,7 @@ public class CadastroActivity extends AppCompatActivity {
                 return;
             }
             nome = txtNome.getText().toString();
-            if(txtEmail.getText().toString().equals("")){
+            if(txtEmail.getText().toString().trim().equals("")){
                 Toast.makeText(getApplicationContext(),"Insira um email!",Toast.LENGTH_SHORT).show();
                 return;
             }else if(!android.util.Patterns.EMAIL_ADDRESS.matcher(txtEmail.getText().toString()).matches()){
@@ -64,11 +67,11 @@ public class CadastroActivity extends AppCompatActivity {
             }
             email = txtEmail.getText().toString();
 
-            if (txtLogin.getText().toString().equals("")) {
+            if (txtLogin.getText().toString().trim().equals("")) {
                 login = email;
             } else login = txtLogin.getText().toString();
 
-            if(txtSenha.getText().toString().equals("")){
+            if(txtSenha.getText().toString().trim().equals("")){
                 Toast.makeText(getApplicationContext(),"Insira uma senha!",Toast.LENGTH_SHORT).show();
                 return;
             }else if(txtSenha.getText().toString().length() < 6){
@@ -77,7 +80,7 @@ public class CadastroActivity extends AppCompatActivity {
             }
             senha = txtSenha.getText().toString();
 
-            if(txtFone.getText().toString().equals("")){
+            if(txtFone.getText().toString().trim().equals("")){
                 Toast.makeText(getApplicationContext(),"Insira uma telefone!",Toast.LENGTH_SHORT).show();
                 return;
             }else if(txtFone.getText().toString().length() < 9){
@@ -86,7 +89,7 @@ public class CadastroActivity extends AppCompatActivity {
             }
             fone = txtFone.getText().toString();
 
-            if(txtInstituicao.getText().toString().equals("")){
+            if(txtInstituicao.getText().toString().trim().equals("")){
                 Toast.makeText(getApplicationContext(),"Insira uma instituição!",Toast.LENGTH_SHORT).show();
                 return;
             }else if(txtInstituicao.getText().toString().length() < 3){
@@ -95,7 +98,7 @@ public class CadastroActivity extends AppCompatActivity {
             }
             inst = txtInstituicao.getText().toString();
 
-            if(txtCurso.getText().toString().equals("")){
+            if(txtCurso.getText().toString().trim().equals("")){
                 Toast.makeText(getApplicationContext(),"Insira uma curso!",Toast.LENGTH_SHORT).show();
                 return;
             }else if(txtCurso.getText().toString().length() < 3){
@@ -104,7 +107,7 @@ public class CadastroActivity extends AppCompatActivity {
             }
             curso = txtCurso.getText().toString();
 
-            if(txtPeriodo.getText().toString().equals(""))
+            if(txtPeriodo.getText().toString().trim().equals(""))
                 periodo = 0;
             else periodo = Integer.parseInt(txtPeriodo.getText().toString());
             ocup = txtOcup.getText().toString();
@@ -115,7 +118,7 @@ public class CadastroActivity extends AppCompatActivity {
         else if(rdPJ.isChecked()){
             Instituicao inst;
             String nome, email, cnpj, login, senha;
-            if(pjNome.getText().toString().equals("")){
+            if(pjNome.getText().toString().trim().equals("")){
                 Toast.makeText(getApplicationContext(),"Insira o nome da instituição!",Toast.LENGTH_SHORT).show();
                 return;
             }else if(pjNome.getText().toString().length() < 3){
@@ -124,7 +127,7 @@ public class CadastroActivity extends AppCompatActivity {
             }
             nome = pjNome.getText().toString();
 
-            if(pjEmail.getText().toString().equals("")){
+            if(pjEmail.getText().toString().trim().equals("")){
                 Toast.makeText(getApplicationContext(),"Insira o email institucional!",Toast.LENGTH_SHORT).show();
                 return;
             }else if(!android.util.Patterns.EMAIL_ADDRESS.matcher(pjEmail.getText().toString()).matches()){
@@ -133,7 +136,7 @@ public class CadastroActivity extends AppCompatActivity {
             }
             email = pjEmail.getText().toString();
 
-            if(pjCnpj.getText().toString().equals("")){
+            if(pjCnpj.getText().toString().trim().equals("")){
                 Toast.makeText(getApplicationContext(),"Insira o CNPJ da instituição!",Toast.LENGTH_SHORT).show();
                 return;
             }else if(pjCnpj.getText().toString().length() < 14){
@@ -142,11 +145,11 @@ public class CadastroActivity extends AppCompatActivity {
             }
             cnpj = pjCnpj.getText().toString();
 
-            if (pjLogin.getText().toString().equals("")) {
+            if (pjLogin.getText().toString().trim().equals("")) {
                 login = email;
             } else login = pjLogin.getText().toString();
 
-            if(pjSenha.getText().toString().equals("")){
+            if(pjSenha.getText().toString().trim().equals("")){
                 Toast.makeText(getApplicationContext(),"Insira uma senha!",Toast.LENGTH_SHORT).show();
                 return;
             }else if(pjSenha.getText().toString().length() < 6){
@@ -168,6 +171,10 @@ public class CadastroActivity extends AppCompatActivity {
         //finishAffinity();
     }
 
+    /**
+     * Cadastro de usuario no banco
+     * @param user usuario a ser cadastrado no banco
+     */
     private void postDataToSQLite(User user) {
         Toast.makeText(getApplicationContext(), MainActivity.dbHelper.addUser(user), Toast.LENGTH_LONG).show();
         if(MainActivity.result > 0){

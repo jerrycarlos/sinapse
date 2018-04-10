@@ -39,6 +39,7 @@ public class CadastroEventoActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(),"Não há instituições cadastradas no momento.",Toast.LENGTH_LONG).show();
             Intent i = new Intent(CadastroEventoActivity.this, FeedActivity.class);
             startActivity(i);
+            finishAffinity();
         }
     }
 
