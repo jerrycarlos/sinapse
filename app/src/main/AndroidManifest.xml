@@ -25,7 +25,8 @@
         <activity android:name=".view.FeedActivity" />
         <activity android:name=".view.CadastroActivity" />
         <activity android:name=".view.EventoActivity" />
-        <activity android:name=".view.CadastroEventoActivity"></activity>
+        <activity android:name=".view.CadastroEventoActivity" />
+        <activity android:name=".view.EventoParticipante"></activity>
     </application>
 
 </manifest>

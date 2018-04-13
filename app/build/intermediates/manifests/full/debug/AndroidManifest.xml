@@ -34,6 +34,7 @@
         <activity android:name="br.com.sinapse.view.CadastroActivity" />
         <activity android:name="br.com.sinapse.view.EventoActivity" />
         <activity android:name="br.com.sinapse.view.CadastroEventoActivity" />
+        <activity android:name="br.com.sinapse.view.EventoParticipante" />
 
         <meta-data
             android:name="android.support.VERSION"

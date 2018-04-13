@@ -12,8 +12,6 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
-import br.com.sinapse.DBHelper.DatabaseHelper;
-import br.com.sinapse.InputValidation;
 import br.com.sinapse.R;
 import br.com.sinapse.controller.DBControl;
 import br.com.sinapse.model.Instituicao;
@@ -65,6 +63,7 @@ public class CadastroActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(),"Email fora dos padrões.",Toast.LENGTH_LONG).show();
                 return;
             }
+            //InputValidation.validaEmail(txtEmail);
             email = txtEmail.getText().toString();
 
             if (txtLogin.getText().toString().trim().equals("")) {
@@ -75,7 +74,7 @@ public class CadastroActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(),"Insira uma senha!",Toast.LENGTH_SHORT).show();
                 return;
             }else if(txtSenha.getText().toString().length() < 6){
-                Toast.makeText(getApplicationContext(),"Senha fora dos padrões.",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),"Senha fora dos padrões. (min. 6 caracteres)",Toast.LENGTH_SHORT).show();
                 return;
             }
             senha = txtSenha.getText().toString();

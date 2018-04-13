@@ -74,7 +74,7 @@ public class DBControl {
     }
 
     /**
-     *
+     * Todas as instituiçoes cadastradas
      * @return lista de instituicao cadastradas no banco
      */
     public ArrayList<String> buscaInstituicao(){
@@ -91,7 +91,7 @@ public class DBControl {
     }
 
     /**
-     *
+     * Todos os eventos cadastrados
      * @return lista de eventos cadastrados no banco
      */
     public ArrayList<Evento> buscaListEvento(){
@@ -108,4 +108,40 @@ public class DBControl {
         return InstituicaoControl.buscaIdInstituicao(nome, this.banco);
     }
 
+    /**
+     * Inscreve usuario no evento
+     * @param uId id do usuario
+     * @param eId id do evento
+     * @return verdadeiro se cadastro foi efetuado, false se nao
+     */
+    public boolean inscreveUsuarioEvento(int uId, int eId){
+        return EventoControl.inscrveUsuarioEvento(eId,uId,this.banco);
+    }
+
+    /**
+     * Retorna lista com nome e instituição de todos usuarios cadastrado no evento atual
+     * @param eId id do evento clicado
+     * @return lista com nome e instituicao de todos usuarios do evento 'eId'
+     */
+    public ArrayList<String> listaUsuariosEvento(int eId){
+        return UserControl.retornoUserEvento(eId,this.banco);
+    }
+
+    /**
+     * Verificação se usuario ja está cadastrado no evento em q deseja se cadastrar
+     * @param uId id do usuario logado
+     * @return verdadeiro se ja esta cadastrado, false se nao
+     */
+    public boolean verificaUsuarioNoEvento(int uId){
+        return UserControl.verificaUserEvento(uId, this.banco);
+    }
+
+    /**
+     * Verificação se usuario ja é palestrante do evento em que deseja se cadastrar
+     * @param uId id do usuario logado
+     * @return verdadeiro se é palestrante, false se nao
+     */
+    public boolean verificaUsuarioPalestranteEvento(int uId){
+        return UserControl.verificaUserEventoPalestrante(uId, this.banco);
+    }
 }

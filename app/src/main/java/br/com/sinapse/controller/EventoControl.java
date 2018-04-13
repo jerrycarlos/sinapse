@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import br.com.sinapse.DBHelper.DBComands;
 import br.com.sinapse.DBHelper.DatabaseHelper;
 import br.com.sinapse.model.Evento;
+import br.com.sinapse.model.Instituicao;
+import br.com.sinapse.model.User;
 import br.com.sinapse.view.FeedActivity;
 
 public class EventoControl {
@@ -47,7 +49,6 @@ public class EventoControl {
         };
 // How you want the results sorted in the resulting Cursor
         String sortOrder = DBComands.COLUMN_EVENTO_ID + " ASC";
-
         Cursor c = db.query(
                 DBComands.TABLE_EVENT,                     // The table to query
                 projection,                               // The columns to return
@@ -77,5 +78,24 @@ public class EventoControl {
         e.setFkInstituicao(c.getInt(c.getColumnIndexOrThrow(DBComands.COLUMN_EVENTO_INSTITUICAO)));
         e.setFkPalestrante(c.getInt(c.getColumnIndexOrThrow(DBComands.COLUMN_EVENTO_PALESTRANTE)));
         return e;
+    }
+
+    public static boolean inscrveUsuarioEvento(int eventoId, int userId, DatabaseHelper banco){
+        long result = -1;
+        SQLiteDatabase db = banco.getWritableDatabase();
+        db.beginTransaction();
+        try {
+            ContentValues values = new ContentValues();
+            values.put(DBComands.COLUMN_EVENTO_USER_FKUSER, userId);
+            values.put(DBComands.COLUMN_EVENTO_USER_FKEVENTO, eventoId);
+            result = db.insert(DBComands.TABLE_EVENT_USER, null, values);
+            if (result != -1)
+                db.setTransactionSuccessful();
+        } finally {
+            db.endTransaction();
+            if(result != -1)
+                return true;
+            else return false;
+        }
     }
 }

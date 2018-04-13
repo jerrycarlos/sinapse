@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from C:\Users\Jerry Jr\AndroidStudioProjects\Sinapse\app\src\main\AndroidManifest.xml:2:1-31:12
-INJECTED from C:\Users\Jerry Jr\AndroidStudioProjects\Sinapse\app\src\main\AndroidManifest.xml:2:1-31:12
-INJECTED from C:\Users\Jerry Jr\AndroidStudioProjects\Sinapse\app\src\main\AndroidManifest.xml:2:1-31:12
-INJECTED from C:\Users\Jerry Jr\AndroidStudioProjects\Sinapse\app\src\main\AndroidManifest.xml:2:1-31:12
+ADDED from C:\Users\Jerry Jr\AndroidStudioProjects\Sinapse\app\src\main\AndroidManifest.xml:2:1-32:12
+INJECTED from C:\Users\Jerry Jr\AndroidStudioProjects\Sinapse\app\src\main\AndroidManifest.xml:2:1-32:12
+INJECTED from C:\Users\Jerry Jr\AndroidStudioProjects\Sinapse\app\src\main\AndroidManifest.xml:2:1-32:12
+INJECTED from C:\Users\Jerry Jr\AndroidStudioProjects\Sinapse\app\src\main\AndroidManifest.xml:2:1-32:12
 MERGED from [com.android.support:design:26.0.1] C:\Users\Jerry Jr\.gradle\caches\transforms-1\files-1.1\design-26.0.1.aar\0d7a70130375290d7d8248d5a701d848\AndroidManifest.xml:17:1-31:12
 MERGED from [com.android.support:appcompat-v7:26.0.1] C:\Users\Jerry Jr\.gradle\caches\transforms-1\files-1.1\appcompat-v7-26.0.1.aar\79af3e0a0b1e6f5499f8b1f0c777ea78\AndroidManifest.xml:17:1-31:12
 MERGED from [com.android.support:cardview-v7:26.0.1] C:\Users\Jerry Jr\.gradle\caches\transforms-1\files-1.1\cardview-v7-26.0.1.aar\edb81ccf3e6bd228dad14a81f7d318ec\AndroidManifest.xml:17:1-28:12
@@ -18,20 +18,20 @@ MERGED from [com.android.support:support-fragment:26.0.1] C:\Users\Jerry Jr\.gra
 MERGED from [com.android.support:support-core-utils:26.0.1] C:\Users\Jerry Jr\.gradle\caches\transforms-1\files-1.1\support-core-utils-26.0.1.aar\bae8964c5db38e768da8c321e240e468\AndroidManifest.xml:17:1-31:12
 MERGED from [com.android.support:support-core-ui:26.0.1] C:\Users\Jerry Jr\.gradle\caches\transforms-1\files-1.1\support-core-ui-26.0.1.aar\f93d4d27222331d79ee45ce41e58fc30\AndroidManifest.xml:17:1-31:12
 MERGED from [com.android.support:support-compat:26.0.1] C:\Users\Jerry Jr\.gradle\caches\transforms-1\files-1.1\support-compat-26.0.1.aar\8b421ecb5f3b696c259862fdfc06d508\AndroidManifest.xml:17:1-31:12
-INJECTED from C:\Users\Jerry Jr\AndroidStudioProjects\Sinapse\app\src\main\AndroidManifest.xml:2:1-31:12
-INJECTED from C:\Users\Jerry Jr\AndroidStudioProjects\Sinapse\app\src\main\AndroidManifest.xml:2:1-31:12
-INJECTED from C:\Users\Jerry Jr\AndroidStudioProjects\Sinapse\app\src\main\AndroidManifest.xml:2:1-31:12
+INJECTED from C:\Users\Jerry Jr\AndroidStudioProjects\Sinapse\app\src\main\AndroidManifest.xml:2:1-32:12
+INJECTED from C:\Users\Jerry Jr\AndroidStudioProjects\Sinapse\app\src\main\AndroidManifest.xml:2:1-32:12
+INJECTED from C:\Users\Jerry Jr\AndroidStudioProjects\Sinapse\app\src\main\AndroidManifest.xml:2:1-32:12
 	package
 		ADDED from C:\Users\Jerry Jr\AndroidStudioProjects\Sinapse\app\src\main\AndroidManifest.xml:3:5-29
 		INJECTED from C:\Users\Jerry Jr\AndroidStudioProjects\Sinapse\app\src\main\AndroidManifest.xml
 		INJECTED from C:\Users\Jerry Jr\AndroidStudioProjects\Sinapse\app\src\main\AndroidManifest.xml
 	android:versionName
 		INJECTED from C:\Users\Jerry Jr\AndroidStudioProjects\Sinapse\app\src\main\AndroidManifest.xml
-		ADDED from C:\Users\Jerry Jr\AndroidStudioProjects\Sinapse\app\src\main\AndroidManifest.xml:2:1-31:12
+		ADDED from C:\Users\Jerry Jr\AndroidStudioProjects\Sinapse\app\src\main\AndroidManifest.xml:2:1-32:12
 		INJECTED from C:\Users\Jerry Jr\AndroidStudioProjects\Sinapse\app\src\main\AndroidManifest.xml
 	android:versionCode
 		INJECTED from C:\Users\Jerry Jr\AndroidStudioProjects\Sinapse\app\src\main\AndroidManifest.xml
-		ADDED from C:\Users\Jerry Jr\AndroidStudioProjects\Sinapse\app\src\main\AndroidManifest.xml:2:1-31:12
+		ADDED from C:\Users\Jerry Jr\AndroidStudioProjects\Sinapse\app\src\main\AndroidManifest.xml:2:1-32:12
 		INJECTED from C:\Users\Jerry Jr\AndroidStudioProjects\Sinapse\app\src\main\AndroidManifest.xml
 	xmlns:android
 		ADDED from C:\Users\Jerry Jr\AndroidStudioProjects\Sinapse\app\src\main\AndroidManifest.xml:2:11-69
@@ -52,7 +52,7 @@ ADDED from C:\Users\Jerry Jr\AndroidStudioProjects\Sinapse\app\src\main\AndroidM
 	android:name
 		ADDED from C:\Users\Jerry Jr\AndroidStudioProjects\Sinapse\app\src\main\AndroidManifest.xml:9:22-64
 application
-ADDED from C:\Users\Jerry Jr\AndroidStudioProjects\Sinapse\app\src\main\AndroidManifest.xml:11:5-29:19
+ADDED from C:\Users\Jerry Jr\AndroidStudioProjects\Sinapse\app\src\main\AndroidManifest.xml:11:5-30:19
 MERGED from [com.android.support:design:26.0.1] C:\Users\Jerry Jr\.gradle\caches\transforms-1\files-1.1\design-26.0.1.aar\0d7a70130375290d7d8248d5a701d848\AndroidManifest.xml:25:5-29:19
 MERGED from [com.android.support:design:26.0.1] C:\Users\Jerry Jr\.gradle\caches\transforms-1\files-1.1\design-26.0.1.aar\0d7a70130375290d7d8248d5a701d848\AndroidManifest.xml:25:5-29:19
 MERGED from [com.android.support:appcompat-v7:26.0.1] C:\Users\Jerry Jr\.gradle\caches\transforms-1\files-1.1\appcompat-v7-26.0.1.aar\79af3e0a0b1e6f5499f8b1f0c777ea78\AndroidManifest.xml:25:5-29:19
@@ -120,9 +120,13 @@ ADDED from C:\Users\Jerry Jr\AndroidStudioProjects\Sinapse\app\src\main\AndroidM
 	android:name
 		ADDED from C:\Users\Jerry Jr\AndroidStudioProjects\Sinapse\app\src\main\AndroidManifest.xml:27:19-54
 activity#br.com.sinapse.view.CadastroEventoActivity
-ADDED from C:\Users\Jerry Jr\AndroidStudioProjects\Sinapse\app\src\main\AndroidManifest.xml:28:9-74
+ADDED from C:\Users\Jerry Jr\AndroidStudioProjects\Sinapse\app\src\main\AndroidManifest.xml:28:9-65
 	android:name
 		ADDED from C:\Users\Jerry Jr\AndroidStudioProjects\Sinapse\app\src\main\AndroidManifest.xml:28:19-62
+activity#br.com.sinapse.view.EventoParticipante
+ADDED from C:\Users\Jerry Jr\AndroidStudioProjects\Sinapse\app\src\main\AndroidManifest.xml:29:9-70
+	android:name
+		ADDED from C:\Users\Jerry Jr\AndroidStudioProjects\Sinapse\app\src\main\AndroidManifest.xml:29:19-58
 uses-sdk
 INJECTED from C:\Users\Jerry Jr\AndroidStudioProjects\Sinapse\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from C:\Users\Jerry Jr\AndroidStudioProjects\Sinapse\app\src\main\AndroidManifest.xml
