@@ -1,6 +1,8 @@
 package br.com.sinapse.view;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
@@ -23,6 +25,7 @@ public class FeedActivity extends AppCompatActivity {
     public static long result;
     private TextView labelUser, labelNoEvento;
     private RecyclerView recyclerListFeed;
+    private static final String PREF_NAME = "MainActivityPreferences";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,9 +99,18 @@ public class FeedActivity extends AppCompatActivity {
     }
 
     public void btLogout(View v){
+        esqueceUsuario();
         Intent i = new Intent(FeedActivity.this, MainActivity.class);
         startActivity(i);
         finishAffinity();
+    }
+
+    private void esqueceUsuario(){
+        SharedPreferences sharedPref = getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString("login", "");
+        editor.putString("senha", "");
+        editor.commit();
     }
 
     private void setupRecycler() {
