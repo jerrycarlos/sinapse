@@ -144,9 +144,9 @@ public class UserControl {
         // Filter results WHERE coluna_user = 'valor a ser comparado'
         //ex: where email = email
         //clausuras do where, quais atributos quero filtrar
-        String whereClause = DBComands.COLUMN_USER_EMAIL + " = ?";
-        //valores que quero comprar cm as colunas que estao no where
-        String[] whereValues = { email };
+        String whereClause = DBComands.COLUMN_USER_EMAIL + " = ? OR " + DBComands.COLUMN_USER_LOGIN + " = ? ";
+        //valores que quero comparar cm as colunas que estao no where
+        String[] whereValues = { email, email };
 
 // How you want the results sorted in the resulting Cursor
         String sortOrder = DBComands.COLUMN_USER_ID + " ASC";
@@ -162,7 +162,7 @@ public class UserControl {
         );
         //verifica se houve retorno na consulta
         if(c.getCount()<=0){
-            Toast.makeText(context,"Email não cadastrado!",Toast.LENGTH_LONG).show();
+            Toast.makeText(context,"Credencial não cadastrada!",Toast.LENGTH_LONG).show();
             return null;
         }
         //se houver retorno na consulta, verifica se senha esta correta
@@ -261,7 +261,6 @@ public class UserControl {
             return true;
         }
         return false;
-        //teste
     }
 
     private static String preencheUsuarioNome(Cursor c){
