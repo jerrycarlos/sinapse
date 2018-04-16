@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
         if(MainActivity.userLogado != null) {
             return true;
         }
-        //comentario teste
+        ////comentario teste
         return false;
     }
 
