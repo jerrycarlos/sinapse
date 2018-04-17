@@ -98,4 +98,28 @@ public class EventoControl {
             else return false;
         }
     }
+
+    public static ArrayList<String> retornoUserEvento(int eventId, DatabaseHelper banco){
+        SQLiteDatabase db = banco.getWritableDatabase();
+        String[] clauses = {
+                String.valueOf(eventId)
+        };
+// How you want the results sorted in the resulting Cursor
+        String sortOrder = DBComands.COLUMN_USER_ID + " ASC";
+
+        Cursor c = db.rawQuery(DBComands.SELECT_USERS_EVENT,clauses);
+        ArrayList<String> user = null;
+        if(c.getCount() > 0) {
+            user = new ArrayList<String>();
+            c.moveToFirst();
+            do {
+                user.add(preencheUsuarioNome(c));
+            }while(c.moveToNext());
+        }
+        return user;
+    }
+
+    private static String preencheUsuarioNome(Cursor c){
+        return c.getString(c.getColumnIndexOrThrow(DBComands.COLUMN_USER_NAME)) + " : " + c.getString(c.getColumnIndexOrThrow(DBComands.COLUMN_USER_INSTITUICAO));
+    }
 }

@@ -211,30 +211,11 @@ public class UserControl {
         }
         return user;
     }*/
-    public static ArrayList<String> retornoUserEvento(int eventId, DatabaseHelper banco){
+
+    public static boolean verificaUserEvento(int userId, int eventId, DatabaseHelper banco){
         SQLiteDatabase db = banco.getWritableDatabase();
         String[] clauses = {
-                String.valueOf(eventId)
-        };
-// How you want the results sorted in the resulting Cursor
-        String sortOrder = DBComands.COLUMN_USER_ID + " ASC";
-
-        Cursor c = db.rawQuery(DBComands.SELECT_USERS_EVENT,clauses);
-        ArrayList<String> user = null;
-        if(c.getCount() > 0) {
-            user = new ArrayList<String>();
-            c.moveToFirst();
-            do {
-                user.add(preencheUsuarioNome(c));
-            }while(c.moveToNext());
-        }
-        return user;
-    }
-
-    public static boolean verificaUserEvento(int userId, DatabaseHelper banco){
-        SQLiteDatabase db = banco.getWritableDatabase();
-        String[] clauses = {
-                String.valueOf(userId)
+                String.valueOf(userId), String.valueOf(eventId)
         };
 // How you want the results sorted in the resulting Cursor
         String sortOrder = DBComands.COLUMN_USER_ID + " ASC";
@@ -247,10 +228,10 @@ public class UserControl {
         return false;
     }
 
-    public static boolean verificaUserEventoPalestrante(int userId, DatabaseHelper banco){
+    public static boolean verificaUserEventoPalestrante(int userId, int eventId, DatabaseHelper banco){
         SQLiteDatabase db = banco.getWritableDatabase();
         String[] clauses = {
-                String.valueOf(userId)
+                String.valueOf(userId), String.valueOf(eventId)
         };
 // How you want the results sorted in the resulting Cursor
         String sortOrder = DBComands.COLUMN_USER_ID + " ASC";
@@ -263,9 +244,6 @@ public class UserControl {
         return false;
     }
 
-    private static String preencheUsuarioNome(Cursor c){
-        return c.getString(c.getColumnIndexOrThrow(DBComands.COLUMN_USER_NAME)) + " : " + c.getString(c.getColumnIndexOrThrow(DBComands.COLUMN_USER_INSTITUICAO));
-    }
     /*private static User preencheUsuario(Cursor c){
         User u = new User();
         u.setId(c.getInt(c.getColumnIndexOrThrow(DBComands.COLUMN_USER_ID)));

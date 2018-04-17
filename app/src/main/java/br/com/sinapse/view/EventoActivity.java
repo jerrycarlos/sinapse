@@ -69,8 +69,8 @@ public class EventoActivity extends AppCompatActivity {
     }
 
     private void retornoInscricao(){
-        if(!MainActivity.dbHelper.verificaUsuarioPalestranteEvento(MainActivity.userLogado.getId())) {
-            if (!MainActivity.dbHelper.verificaUsuarioNoEvento(MainActivity.userLogado.getId())) {
+        if(!MainActivity.dbHelper.verificaUsuarioPalestranteEvento(MainActivity.userLogado.getId(),e.getId())) {
+            if (!MainActivity.dbHelper.verificaUsuarioNoEvento(MainActivity.userLogado.getId(),e.getId())) {
                 if (!MainActivity.dbHelper.inscreveUsuarioEvento(MainActivity.userLogado.getId(), e.getId())) {
                     Toast.makeText(getApplicationContext(), "Inscrição efetuada com sucesso!", Toast.LENGTH_LONG).show();
                     startActivity(new Intent(EventoActivity.this, FeedActivity.class));

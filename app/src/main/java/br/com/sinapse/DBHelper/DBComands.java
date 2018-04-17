@@ -70,8 +70,8 @@ public class DBComands {
 
     public static final String SELECT_USERS_EVENT = "SELECT u." + COLUMN_USER_NAME + ", u." + COLUMN_USER_INSTITUICAO + " from " + TABLE_USER + " u inner join " + TABLE_EVENT_USER + " ep on " + "u." + COLUMN_USER_ID + " = ep." + COLUMN_EVENTO_USER_FKUSER + " inner join " + TABLE_EVENT + " e on " + "e." + COLUMN_EVENTO_ID + " =  ep." + COLUMN_EVENTO_USER_FKEVENTO + " WHERE e." + COLUMN_EVENTO_ID + "=?";
 
-    public static final String SELECT_USER_IN_EVENT = "SELECT " + COLUMN_EVENTO_USER_FKUSER + " from " + TABLE_EVENT_USER + " WHERE " + COLUMN_EVENTO_USER_FKUSER + "=? ";
+    public static final String SELECT_USER_IN_EVENT = "SELECT " + COLUMN_EVENTO_USER_FKUSER + " from " + TABLE_EVENT_USER + " WHERE " + COLUMN_EVENTO_USER_FKUSER + "=? AND " + COLUMN_EVENTO_USER_FKEVENTO + "=? ";
 
-    public static final String SELECT_USER_PALESTRANTE = "SELECT u." + COLUMN_USER_ID + " from " + TABLE_USER + " u inner join " + TABLE_EVENT_USER + " ep on " + "u." + COLUMN_USER_ID + " = ep." + COLUMN_EVENTO_USER_FKUSER + " inner join " + TABLE_EVENT + " e on " + "e." + COLUMN_EVENTO_ID + " =  ep." + COLUMN_EVENTO_USER_FKEVENTO + " WHERE e." + COLUMN_EVENTO_PALESTRANTE + "=?";
+    public static final String SELECT_USER_PALESTRANTE = "SELECT " + COLUMN_EVENTO_PALESTRANTE + " from " + TABLE_EVENT + " where " + COLUMN_EVENTO_PALESTRANTE + "=? AND " + COLUMN_EVENTO_ID + "=? ";
 
 }

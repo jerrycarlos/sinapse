@@ -30,7 +30,7 @@ public class EventoParticipante extends AppCompatActivity {
     private void carregaListaUsuarios(){
         ArrayAdapter<String> itensList;
         ArrayList<String> usuarios = MainActivity.dbHelper.listaUsuariosEvento(EventoActivity.e.getId());
-        if(!usuarios.isEmpty()) {
+        if(usuarios!=null) {
             itensList = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, usuarios);
             listUser.setAdapter(itensList);
         }else {

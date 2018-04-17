@@ -27,18 +27,18 @@ import br.com.sinapse.R;
 import br.com.sinapse.controller.DBControl;
 import br.com.sinapse.model.Instituicao;
 import br.com.sinapse.model.User;
-
+// Tacio com voz de Cid Moreira para fazer a propaganda do Sinapse!!!
 
 public class MainActivity extends AppCompatActivity {
     public static DBControl dbHelper;
     private final AppCompatActivity activity = MainActivity.this;
     private static final String PREF_NAME = "MainActivityPreferences";
-    private TextView userEmail, userSenha;
+    private TextView userEmail, userPass;
     private CheckBox chkManter;
     public static User userLogado;
     public static Instituicao instLogado;
     public static long result = -1;
-    private String login, senha;
+    private String userLogin, userSenha;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
         if(MainActivity.userLogado != null) {
             return true;
         }
-        ////comentario teste
+        //comentario teste
         return false;
     }
 
@@ -87,9 +87,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void abrirFeed(View v){
-        this.login = userEmail.getText().toString();
-        this.senha = userSenha.getText().toString();
-        validaUsuarioParaLogar(login, senha);
+        this.userLogin = userEmail.getText().toString();
+        this.userSenha = userPass.getText().toString();
+        validaUsuarioParaLogar(userLogin, userSenha);
     }
 
     private void validaUsuarioParaLogar(String login, String senha){
@@ -105,8 +105,8 @@ public class MainActivity extends AppCompatActivity {
     private void salvarLogin(){
         SharedPreferences sharedPref = getSharedPreferences(PREF_NAME,Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putString("login", this.login);
-        editor.putString("senha", this.senha);
+        editor.putString("login", this.userLogin);
+        editor.putString("senha", this.userSenha);
         editor.commit();
     }
 
@@ -126,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void initObjects(){
         userEmail = (TextView) findViewById(R.id.txtSingin);
-        userSenha = (TextView) findViewById(R.id.txtPasswordMain);
+        userPass = (TextView) findViewById(R.id.txtPasswordMain);
         chkManter = (CheckBox) findViewById(R.id.checkBoxLembrar);
     }
 }

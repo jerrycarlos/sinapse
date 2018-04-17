@@ -35,6 +35,7 @@ public class DBControl {
     /**
      * This method is to create user record
      *
+     * @return dados do usuario encontrado
      * @param user
      */
     public String addUser(User user) {
@@ -124,7 +125,7 @@ public class DBControl {
      * @return lista com nome e instituicao de todos usuarios do evento 'eId'
      */
     public ArrayList<String> listaUsuariosEvento(int eId){
-        return UserControl.retornoUserEvento(eId,this.banco);
+        return EventoControl.retornoUserEvento(eId,this.banco);
     }
 
     /**
@@ -132,8 +133,8 @@ public class DBControl {
      * @param uId id do usuario logado
      * @return verdadeiro se ja esta cadastrado, false se nao
      */
-    public boolean verificaUsuarioNoEvento(int uId){
-        return UserControl.verificaUserEvento(uId, this.banco);
+    public boolean verificaUsuarioNoEvento(int uId, int eId){
+        return UserControl.verificaUserEvento(uId, eId, this.banco);
     }
 
     /**
@@ -141,7 +142,7 @@ public class DBControl {
      * @param uId id do usuario logado
      * @return verdadeiro se é palestrante, false se nao
      */
-    public boolean verificaUsuarioPalestranteEvento(int uId){
-        return UserControl.verificaUserEventoPalestrante(uId, this.banco);
+    public boolean verificaUsuarioPalestranteEvento(int uId, int eId){
+        return UserControl.verificaUserEventoPalestrante(uId, eId, this.banco);
     }
 }
