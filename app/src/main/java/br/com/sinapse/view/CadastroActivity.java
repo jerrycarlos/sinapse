@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import br.com.sinapse.R;
 import br.com.sinapse.controller.DBControl;
+import br.com.sinapse.controller.JSONControl;
 import br.com.sinapse.model.Instituicao;
 import br.com.sinapse.model.User;
 
@@ -83,7 +84,7 @@ public class CadastroActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(),"Insira uma telefone!",Toast.LENGTH_SHORT).show();
                 return;
             }else if(txtFone.getText().toString().length() < 9){
-                Toast.makeText(getApplicationContext(),"Telefone fora dos padrões.",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),"Favor inserir um numero válido. (Ex: xx xxxxx-xxxx)",Toast.LENGTH_SHORT).show();
                 return;
             }
             fone = txtFone.getText().toString();
@@ -175,7 +176,9 @@ public class CadastroActivity extends AppCompatActivity {
      * @param user usuario a ser cadastrado no banco
      */
     private void postDataToSQLite(User user) {
-        Toast.makeText(getApplicationContext(), MainActivity.dbHelper.addUser(user), Toast.LENGTH_LONG).show();
+        //Toast.makeText(getApplicationContext(), MainActivity.dbHelper.addUser(user), Toast.LENGTH_LONG).show();
+        JSONControl jsonHelper = new JSONControl(CadastroActivity.this);
+        jsonHelper.enviarDados(user);
         if(MainActivity.result > 0){
             Intent i = new Intent(CadastroActivity.this, MainActivity.class);
             startActivity(i);
@@ -211,15 +214,15 @@ public class CadastroActivity extends AppCompatActivity {
     }
 
     private void iniciarObjetos(){
-        txtNome = (EditText) findViewById(R.id.txtNome);
-        txtEmail = (EditText) findViewById(R.id.txtEmail);
-        txtLogin = (EditText) findViewById(R.id.txtLogin);
-        txtSenha = (EditText) findViewById(R.id.txtSenha);
-        txtOcup = (EditText) findViewById(R.id.txtOcupacao);
-        txtCurso = (EditText) findViewById(R.id.txtCurso);
-        txtInstituicao = (EditText) findViewById(R.id.txtInstituicao);
-        txtPeriodo = (EditText) findViewById(R.id.txtPeriodo);
-        txtFone = (EditText) findViewById(R.id.txtFone);
+        txtNome = (EditText) findViewById(R.id.pfNome);
+        txtEmail = (EditText) findViewById(R.id.pfEmail);
+        txtLogin = (EditText) findViewById(R.id.pfLogin);
+        txtSenha = (EditText) findViewById(R.id.pfSenha);
+        txtOcup = (EditText) findViewById(R.id.pfOcupacao);
+        txtCurso = (EditText) findViewById(R.id.pfCurso);
+        txtInstituicao = (EditText) findViewById(R.id.pfInstituicao);
+        txtPeriodo = (EditText) findViewById(R.id.pfPeriodo);
+        txtFone = (EditText) findViewById(R.id.pfFone);
         btRegistro = (Button) findViewById(R.id.btRegistro);
         layoutPessoaF = (LinearLayout) findViewById(R.id.layoutPF);
         layoutPessoaJ = (LinearLayout) findViewById(R.id.layoutPJ);

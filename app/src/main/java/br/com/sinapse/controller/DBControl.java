@@ -50,6 +50,7 @@ public class DBControl {
         return EventoControl.addEvento(event, this.banco);
     }
 
+
     /*
         COLUMN_USER_ID,        COLUMN_USER_NAME,        COLUMN_USER_EMAIL,        COLUMN_USER_PASSWORD,        COLUMN_USER_LOGIN,        COLUMN_USER_TEL,       COLUMN_USER_OCUP,        COLUMN_USER_INSTITUICAO,        COLUMN_USER_CURSO,        COLUMN_USER_PERIODO
     */

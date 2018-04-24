@@ -175,7 +175,8 @@
                         android:layout_weight="2"
                         android:ems="10"
                         android:hint="Telefone"
-                        android:inputType="number" />
+                        android:inputType="number"
+                        android:maxLength="12" />
 
                     <EditText
                         android:id="@+id/pjSite"
@@ -206,7 +207,7 @@
                     android:visibility="visible">
 
                     <EditText
-                        android:id="@+id/txtNome"
+                        android:id="@+id/pfNome"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
@@ -215,7 +216,7 @@
                         android:inputType="text|textPersonName" />
 
                     <EditText
-                        android:id="@+id/txtEmail"
+                        android:id="@+id/pfEmail"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
@@ -224,7 +225,7 @@
                         android:inputType="textEmailAddress" />
 
                     <EditText
-                        android:id="@+id/txtLogin"
+                        android:id="@+id/pfLogin"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
@@ -233,7 +234,7 @@
                         android:inputType="text" />
 
                     <EditText
-                        android:id="@+id/txtSenha"
+                        android:id="@+id/pfSenha"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
@@ -243,7 +244,7 @@
                         android:maxLength="16" />
 
                     <EditText
-                        android:id="@+id/txtFone"
+                        android:id="@+id/pfFone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
@@ -253,7 +254,7 @@
                         android:maxLength="12" />
 
                     <EditText
-                        android:id="@+id/txtInstituicao"
+                        android:id="@+id/pfInstituicao"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
@@ -262,7 +263,7 @@
                         android:inputType="text" />
 
                     <EditText
-                        android:id="@+id/txtCurso"
+                        android:id="@+id/pfCurso"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
@@ -271,7 +272,7 @@
                         android:inputType="text" />
 
                     <EditText
-                        android:id="@+id/txtPeriodo"
+                        android:id="@+id/pfPeriodo"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
@@ -280,7 +281,7 @@
                         android:inputType="number" />
 
                     <EditText
-                        android:id="@+id/txtOcupacao"
+                        android:id="@+id/pfOcupacao"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="2"

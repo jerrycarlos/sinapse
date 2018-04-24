@@ -26,7 +26,8 @@
         <activity android:name=".view.CadastroActivity" />
         <activity android:name=".view.EventoActivity" />
         <activity android:name=".view.CadastroEventoActivity" />
-        <activity android:name=".view.EventoParticipante"></activity>
+        <activity android:name=".view.EventoParticipante" />
+        <activity android:name=".view.TestActivity"/>
     </application>
 
 </manifest>
