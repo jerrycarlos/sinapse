@@ -177,8 +177,8 @@ public class CadastroActivity extends AppCompatActivity {
      */
     private void postDataToSQLite(User user) {
         //Toast.makeText(getApplicationContext(), MainActivity.dbHelper.addUser(user), Toast.LENGTH_LONG).show();
-        JSONControl jsonHelper = new JSONControl(CadastroActivity.this);
-        jsonHelper.enviarDados(user);
+        MainActivity.jsonHelper.setContext(CadastroActivity.this);
+        MainActivity.jsonHelper.cadastroEntidade(user);
         if(MainActivity.result > 0){
             Intent i = new Intent(CadastroActivity.this, MainActivity.class);
             startActivity(i);

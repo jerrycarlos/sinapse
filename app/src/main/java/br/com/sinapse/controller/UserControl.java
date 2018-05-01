@@ -1,12 +1,25 @@
 package br.com.sinapse.controller;
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.AsyncTask;
 import android.provider.ContactsContract;
+import android.util.Log;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.DataOutputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 
 import br.com.sinapse.DBHelper.DBComands;
@@ -20,6 +33,13 @@ import br.com.sinapse.view.MainActivity;
  */
 
 public class UserControl {
+    private String msgOperacao = "";
+    private static Context activity;
+
+
+    public UserControl(Context c){
+        activity = c;
+    }
 
     public static String addUser(User user, DatabaseHelper banco) {
         long result = -1;
@@ -192,25 +212,6 @@ public class UserControl {
         return user;
     }
 
-    /*public static ArrayList<User> retornoUserEvento(int eventId, DatabaseHelper banco){
-        SQLiteDatabase db = banco.getWritableDatabase();
-        String[] clauses = {
-                String.valueOf(eventId)
-        };
-// How you want the results sorted in the resulting Cursor
-        String sortOrder = DBComands.COLUMN_PJ_ID + " ASC";
-
-        Cursor c = db.rawQuery(DBComands.SELECT_USERS_EVENT,clauses);
-        ArrayList<User> user = null;
-        if(c.getCount() > 0) {
-            user = new ArrayList<User>();
-            c.moveToFirst();
-            do {
-                user.add(preencheUsuario(c));
-            }while(c.moveToNext());
-        }
-        return user;
-    }*/
 
     public static boolean verificaUserEvento(int userId, int eventId, DatabaseHelper banco){
         SQLiteDatabase db = banco.getWritableDatabase();
@@ -244,17 +245,142 @@ public class UserControl {
         return false;
     }
 
-    /*private static User preencheUsuario(Cursor c){
-        User u = new User();
-        u.setId(c.getInt(c.getColumnIndexOrThrow(DBComands.COLUMN_USER_ID)));
-        u.setNome(c.getString(c.getColumnIndexOrThrow(DBComands.COLUMN_USER_NAME)));
-        u.setEmail(c.getString(c.getColumnIndexOrThrow(DBComands.COLUMN_USER_EMAIL)));
-        u.setLogin(c.getString(c.getColumnIndexOrThrow(DBComands.COLUMN_USER_LOGIN)));
-        u.setInstituicao(c.getString(c.getColumnIndexOrThrow(DBComands.COLUMN_USER_INSTITUICAO)));
-        u.setCurso(c.getString(c.getColumnIndexOrThrow(DBComands.COLUMN_USER_CURSO)));
-        u.setPeriodo(c.getInt(c.getColumnIndexOrThrow(DBComands.COLUMN_USER_PERIODO)));
-        u.setOcupacao(c.getString(c.getColumnIndexOrThrow(DBComands.COLUMN_USER_OCUP)));
-        u.setTelefone(c.getString(c.getColumnIndexOrThrow(DBComands.COLUMN_USER_TEL)));
-        return u;
-    }*/
+    public void loginUser(String email, String senha){
+        msgOperacao = "Aguarde...";
+        JSONObject postData = new JSONObject();
+        try {
+            postData.put("email",email);
+            postData.put("senha",senha);
+
+            SendDeviceDetails t = new SendDeviceDetails();
+            t.execute("http://192.168.0.21/buscaUser.php", postData.toString());
+            //ip externo http://179.190.193.231/cadastro.php
+            //ip interno 192.168.0.21 minha casa
+            //ip interno hotspot celular 192.168.49.199[
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    private  class SendDeviceDetails extends AsyncTask<String, Void, String> {
+        private ProgressDialog progress = new ProgressDialog(activity);
+
+        protected void onPreExecute() {
+            //display progress dialog.
+            this.progress.setMessage(msgOperacao);
+            this.progress.show();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            String data = "";
+
+            HttpURLConnection httpURLConnection = null;
+            try {
+
+                httpURLConnection = (HttpURLConnection) new URL(params[0]).openConnection();
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setRequestProperty("Content-Type", "application/json;charset=utf-8");
+
+                httpURLConnection.setReadTimeout(15000 /* milliseconds */);
+                httpURLConnection.setConnectTimeout(15000 /* milliseconds */);
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setDoInput(true);
+                httpURLConnection.setDoOutput(true);
+
+                DataOutputStream wr = new DataOutputStream(httpURLConnection.getOutputStream());
+                wr.writeBytes(params[1]);
+                wr.flush();
+                wr.close();
+
+
+                //pega o codigo da requisicao http
+                int responseCode=httpURLConnection.getResponseCode();
+
+                InputStream in = httpURLConnection.getInputStream();
+                InputStreamReader inputStreamReader = new InputStreamReader(in);
+
+                int inputStreamData = inputStreamReader.read();
+                while (inputStreamData != -1) {
+                    char current = (char) inputStreamData;
+                    inputStreamData = inputStreamReader.read();
+                    data += current;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                if (httpURLConnection != null) {
+                    httpURLConnection.disconnect();
+                }
+            }
+
+            return data;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            Log.e("TAG", result); // this is expecting a response code to be sent from your server upon receiving the POST data
+            if (progress.isShowing()) {
+                progress.dismiss();
+            }
+            String titulo = "Sucesso";
+
+            JSONObject json = null;
+            Long codigo = null;
+            String msg = null;
+            String nome = null, email = null, senha = null, login = null, instituicao = null,
+            curso = null, ocupacao = null, telefone = null;
+            int id = -1, periodo = 0;
+            Log.i("result",result);
+            try {
+                json = new JSONObject(result);
+                if (json.getLong("erro")>0) {
+                    if (json.getLong("id") > 0) {
+                        codigo = json.getLong("status");
+                        msg = json.getString("msg");
+                        id = json.getInt("id");
+                        nome = json.getString("nome");
+                        email = json.getString("email");
+                        login = json.getString("login");
+                        instituicao = json.getString("instituicao");
+                        curso = json.getString("curso");
+                        ocupacao = json.getString("ocupacao");
+                        periodo = json.getInt("periodo");
+                        telefone = json.getString("telefone");
+                        User usr = new User(nome, email, login, senha, ocupacao, instituicao, curso, telefone, periodo);
+                        usr.setId(id);
+                        MainActivity.userLogado = usr;
+                        msg = "Logado com sucesso.";
+                    }
+                }else{
+                    titulo  = "Erro";
+                    codigo = json.getLong("erro");
+                    msg = json.getString("msg");
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+
+            builder.setMessage(msg)
+                    .setTitle(titulo);
+            builder.setNeutralButton("OK", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    dialog.cancel();
+                }
+            });
+
+            // 3. Get the AlertDialog from create()
+            AlertDialog dialog = builder.create();
+
+            dialog.show();
+        }
+
+    }
 }

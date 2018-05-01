@@ -25,12 +25,15 @@ import org.w3c.dom.Text;
 import br.com.sinapse.DBHelper.DatabaseHelper;
 import br.com.sinapse.R;
 import br.com.sinapse.controller.DBControl;
+import br.com.sinapse.controller.JSONControl;
+import br.com.sinapse.controller.UserControl;
 import br.com.sinapse.model.Instituicao;
 import br.com.sinapse.model.User;
 // Tacio com voz de Cid Moreira para fazer a propaganda do Sinapse!!!
 
 public class MainActivity extends AppCompatActivity {
     public static DBControl dbHelper;
+    public static JSONControl jsonHelper;
     private final AppCompatActivity activity = MainActivity.this;
     private static final String PREF_NAME = "MainActivityPreferences";
     private TextView userEmail, userPass;
@@ -46,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
         //getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN); // Para o layout preencher toda tela do cel (remover a barra de tit.)
         getSupportActionBar().hide(); //esconder ActionBar
         dbHelper = new DBControl(activity);
+        jsonHelper = new JSONControl(MainActivity.this);
         initObjects();
         //borda da imagem logo
         criarBordaImagem();
@@ -57,7 +61,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private boolean validarLogin(String login, String senha){
-        MainActivity.userLogado = dbHelper.buscarUser(login, senha, activity);
+        //MainActivity.userLogado = dbHelper.buscarUser(login, senha, activity);
+        UserControl userControl = new UserControl(MainActivity.this);
+        userControl.loginUser(login,senha);
         if(MainActivity.userLogado != null) {
             return true;
         }

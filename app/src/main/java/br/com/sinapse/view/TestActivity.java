@@ -1,12 +1,14 @@
-package br.com.sinapse.controller;
+package br.com.sinapse.view;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.AsyncTask;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.EditText;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -17,61 +19,39 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import br.com.sinapse.model.Evento;
+import br.com.sinapse.R;
 import br.com.sinapse.model.User;
-import br.com.sinapse.view.CadastroActivity;
-import br.com.sinapse.view.MainActivity;
 
-public class JSONControl {
-    Context activity;
-    public static String servidor = "http://192.168.43.199";
-    private String msgOperacao = "";
-    public JSONControl(Context context){
-        this.activity = context;
+public class TestActivity extends AppCompatActivity {
+    private EditText tNome,tSenha,tEmail,tLogin,tPeriodo,tOcup,tInst,tFone,tCurso;
+    public static User usuarioLogado = null;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_test);
+        initObjects();
     }
 
-    public void setContext(Context context){
-        this.activity = context;
+    public void btEnviarDados(View v){
+        enviarDados();
     }
 
-    public void cadastroEntidade(User u) {
-        msgOperacao = "Registrando usuario...";
+    private void enviarDados() {
         JSONObject postData = new JSONObject();
         try {
-            postData.put("nome",u.getNome());
-            postData.put("email",u.getEmail());
-            postData.put("senha",u.getSenha());
-            postData.put("login",u.getLogin());
-            postData.put("telefone",u.getTelefone());
-            postData.put("instituicao",u.getInstituicao());
-            postData.put("curso",u.getCurso());
-            postData.put("periodo",u.getPeriodo());
-            postData.put("ocupacao",u.getOcupacao());
+            postData.put("name",tNome.getText().toString());
+            postData.put("email",tEmail.getText().toString());
+            postData.put("senha",tSenha.getText().toString());
+            /*postData.put("login",tLogin.getText().toString());
+            postData.put("senha",tSenha.getText().toString());
+            postData.put("curso",tCurso.getText().toString());
+            postData.put("periodo",tPeriodo.getText().toString());
+            postData.put("instituicao",tInst.getText().toString());
+            postData.put("ocupacao",tOcup.getText().toString());
+            postData.put("fone",tFone.getText().toString());*/
 
             SendDeviceDetails t = new SendDeviceDetails();
-            t.execute("http://192.168.0.21/cadastroUsuario.php", postData.toString());
-            //ip externo http://179.190.193.231/cadastro.php
-            //ip interno 192.168.0.21 minha casa
-            //ip interno hotspot celular 192.168.49.199[
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void cadastroEntidade(Evento ev) {
-        msgOperacao = "Registrando evento...";
-        JSONObject postData = new JSONObject();
-        try {
-            postData.put("tema",ev.getTema());
-            postData.put("descricao",ev.getDescricao());
-            postData.put("palestrante",ev.getFkPalestrante());
-            postData.put("local",ev.getFkInstituicao());
-
-            SendDeviceDetails t = new SendDeviceDetails();
-            t.execute("http://192.168.43.199/cadastroEvento.php", postData.toString());
-            //ip externo http://179.190.193.231/cadastro.php
-            //ip interno 192.168.0.21 minha casa
-            //ip interno hotspot celular 192.168.49.199[
+            t.execute("http://192.168.0.21/service.php", postData.toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -80,11 +60,11 @@ public class JSONControl {
 
 
     private class SendDeviceDetails extends AsyncTask<String, Void, String> {
-        private ProgressDialog progress = new ProgressDialog(activity);
+        private ProgressDialog progress = new ProgressDialog(TestActivity.this);
 
         protected void onPreExecute() {
             //display progress dialog.
-            this.progress.setMessage(msgOperacao);
+            this.progress.setMessage("Aguarde...");
             this.progress.show();
         }
 
@@ -157,14 +137,19 @@ public class JSONControl {
                 e.printStackTrace();
             }
 
-            String titulo = "Sucesso";
-            MainActivity.result = 1;
-            if( codigo < 1){
-                titulo  = "Erro";
-                MainActivity.result = -1;
+            String titulo = "";
+            if( codigo == 1L){
+                usuarioLogado = new User();
+                usuarioLogado.setNome(tNome.getText().toString());
+                usuarioLogado.setEmail(tEmail.getText().toString());
+                usuarioLogado.setSenha(tSenha.getText().toString());
+            }else{
+                usuarioLogado = null;
             }
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(TestActivity.this);
 
             builder.setMessage(msg)
                     .setTitle(titulo);
@@ -180,5 +165,17 @@ public class JSONControl {
             dialog.show();
         }
 
+    }
+
+    private void initObjects(){
+        tNome = (EditText) findViewById(R.id.txtNomeTest);
+        tEmail = (EditText) findViewById(R.id.txtEmailTest);
+        tSenha = (EditText) findViewById(R.id.txtSenhaTest);
+        tLogin = (EditText) findViewById(R.id.txtLoginTest);
+        tInst = (EditText) findViewById(R.id.txtInstituicaoTest);
+        tOcup = (EditText) findViewById(R.id.txtOcupacaoTest);
+        tPeriodo = (EditText) findViewById(R.id.txtPeriodoTest);
+        tFone = (EditText) findViewById(R.id.txtFoneTest);
+        tCurso = (EditText) findViewById(R.id.txtCursoTest);
     }
 }
