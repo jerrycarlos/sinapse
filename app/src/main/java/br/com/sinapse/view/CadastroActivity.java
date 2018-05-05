@@ -13,6 +13,7 @@ import android.widget.RadioButton;
 import android.widget.Toast;
 
 import br.com.sinapse.R;
+import br.com.sinapse.controller.CadastroUserControl;
 import br.com.sinapse.controller.DBControl;
 import br.com.sinapse.controller.JSONControl;
 import br.com.sinapse.model.Instituicao;
@@ -27,7 +28,7 @@ public class CadastroActivity extends AppCompatActivity {
     private Context context;
     private DBControl dbHelper;
     private final AppCompatActivity activity = CadastroActivity.this;
-    public static long result = -1;
+    public static boolean result = false;
     //private DatabaseHelper databaseHelper;
     //private InputValidation inputValidation;
     @Override
@@ -177,13 +178,18 @@ public class CadastroActivity extends AppCompatActivity {
      */
     private void postDataToSQLite(User user) {
         //Toast.makeText(getApplicationContext(), MainActivity.dbHelper.addUser(user), Toast.LENGTH_LONG).show();
-        MainActivity.jsonHelper.setContext(CadastroActivity.this);
-        MainActivity.jsonHelper.cadastroEntidade(user);
-        if(MainActivity.result > 0){
-            Intent i = new Intent(CadastroActivity.this, MainActivity.class);
-            startActivity(i);
-            finishAffinity();
-        }
+        CadastroUserControl userCadastro = new CadastroUserControl(activity);
+        userCadastro.cadastroEntidade(user);
+    }
+
+    public static void mudaTelaCadastroMain(){
+        MainActivity.result = 1;
+    }
+
+    private void mudaTela(){
+        Intent i = new Intent(CadastroActivity.this, MainActivity.class);
+        startActivity(i);
+        finishAffinity();
     }
 
     private void postDataToSQLite(Instituicao inst){

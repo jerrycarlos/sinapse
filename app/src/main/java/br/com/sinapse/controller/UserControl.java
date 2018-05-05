@@ -337,8 +337,7 @@ public class UserControl {
             Log.i("result",result);
             try {
                 json = new JSONObject(result);
-                if (json.getLong("erro")>0) {
-                    if (json.getLong("id") > 0) {
+                if (json.getLong("id") > 0) {
                         codigo = json.getLong("status");
                         msg = json.getString("msg");
                         id = json.getInt("id");
@@ -354,7 +353,6 @@ public class UserControl {
                         usr.setId(id);
                         MainActivity.userLogado = usr;
                         msg = "Logado com sucesso.";
-                    }
                 }else{
                     titulo  = "Erro";
                     codigo = json.getLong("erro");

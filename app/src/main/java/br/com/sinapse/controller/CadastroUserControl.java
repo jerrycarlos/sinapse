@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -17,20 +16,14 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import br.com.sinapse.model.Evento;
 import br.com.sinapse.model.User;
 import br.com.sinapse.view.CadastroActivity;
-import br.com.sinapse.view.MainActivity;
 
-public class JSONControl {
+public class CadastroUserControl {
     Context activity;
-    public static String servidor = "http://192.168.43.199";
+    public static String servidor = "http://192.168.0.21";
     private String msgOperacao = "";
-    public JSONControl(Context context){
-        this.activity = context;
-    }
-
-    public void setContext(Context context){
+    public CadastroUserControl(Context context){
         this.activity = context;
     }
 
@@ -57,27 +50,6 @@ public class JSONControl {
             e.printStackTrace();
         }
     }
-
-    public void cadastroEntidade(Evento ev) {
-        msgOperacao = "Registrando evento...";
-        JSONObject postData = new JSONObject();
-        try {
-            postData.put("tema",ev.getTema());
-            postData.put("descricao",ev.getDescricao());
-            postData.put("palestrante",ev.getFkPalestrante());
-            postData.put("local",ev.getFkInstituicao());
-
-            SendDeviceDetails t = new SendDeviceDetails();
-            t.execute("http://192.168.43.199/cadastroEvento.php", postData.toString());
-            //ip externo http://179.190.193.231/cadastro.php
-            //ip interno 192.168.0.21 minha casa
-            //ip interno hotspot celular 192.168.49.199[
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
-
 
     private class SendDeviceDetails extends AsyncTask<String, Void, String> {
         private ProgressDialog progress = new ProgressDialog(activity);
@@ -160,11 +132,11 @@ public class JSONControl {
             String titulo = "Sucesso";
 
             if(codigo == 1){
-                MainActivity.result = 1;
+                CadastroActivity.result = true;
             }
             if( codigo < 1){
                 titulo  = "Erro";
-                MainActivity.result = -1;
+                CadastroActivity.result = false;
             }
 
             AlertDialog.Builder builder = new AlertDialog.Builder(activity);
