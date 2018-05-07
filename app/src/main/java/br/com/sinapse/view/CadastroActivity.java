@@ -224,7 +224,10 @@ public class CadastroActivity extends AppCompatActivity {
 
         protected void onPreExecute() {
             //display progress dialog.
-            this.progress.setMessage("Registrando usuário...");
+            if(operacao == 1)
+                this.progress.setMessage("Registrando usuário...");
+            else if(operacao == 2)
+                this.progress.setMessage("Carregando instituições...");
             this.progress.show();
         }
 
