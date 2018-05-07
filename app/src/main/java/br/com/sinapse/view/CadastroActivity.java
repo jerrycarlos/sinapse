@@ -183,7 +183,7 @@ public class CadastroActivity extends AppCompatActivity {
             postData.put("curso",u.getCurso());
             postData.put("periodo",u.getPeriodo());
             postData.put("ocupacao",u.getOcupacao());
-
+            operacao = 1;
             SendDeviceDetails t = new SendDeviceDetails();
             t.execute(Config.ip_servidor+"/cadastroUsuario.php", postData.toString());
             //ip externo http://179.190.193.231/cadastro.php
