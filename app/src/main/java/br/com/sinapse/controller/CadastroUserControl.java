@@ -133,6 +133,7 @@ public class CadastroUserControl {
 
             if(codigo == 1){
                 CadastroActivity.result = true;
+
             }
             if( codigo < 1){
                 titulo  = "Erro";

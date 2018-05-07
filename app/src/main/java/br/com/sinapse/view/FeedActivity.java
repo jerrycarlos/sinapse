@@ -1,27 +1,45 @@
 package br.com.sinapse.view;
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.DataOutputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import br.com.sinapse.R;
+import br.com.sinapse.config.Config;
 import br.com.sinapse.model.Evento;
+import br.com.sinapse.model.User;
 
 public class FeedActivity extends AppCompatActivity {
     RecyclerView mRecyclerView;
     private int id = 1;
     public LineAdapter mAdapter;
     public static Evento eventoId;
+    private ArrayList<Evento> listEvento;
     public static long result;
     private TextView labelUser, labelNoEvento;
     private RecyclerView recyclerListFeed;
@@ -42,7 +60,8 @@ public class FeedActivity extends AppCompatActivity {
         labelNoEvento = (TextView) findViewById(R.id.txtNoEvents);
         recyclerListFeed = (RecyclerView) findViewById(R.id.recycler_list);
         labelUser.setText("Olá " + MainActivity.userLogado.getNome());
-        loadEvento();
+        //loadEvento();
+        listaEvento();
     }
 
     private void loadEvento(){
@@ -137,5 +156,130 @@ public class FeedActivity extends AppCompatActivity {
             // clean up
             finish();//super.onBackPressed();       // bye
         }
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        //listaEvento();
+    }
+
+
+    private void listaEvento(){
+        JSONObject postData = new JSONObject();
+        try {
+            postData.put("email","teste");
+            postData.put("senha","teste");
+            SendDeviceDetails t = new SendDeviceDetails();
+            t.execute(Config.ip_servidor+"/buscaEvento.php", postData.toString());
+            //ip externo http://179.190.193.231/cadastro.php
+            //ip interno 192.168.0.21 minha casa
+            //ip interno hotspot celular 192.168.49.199[
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    private  class SendDeviceDetails extends AsyncTask<String, Void, String> {
+        private ProgressDialog progress = new ProgressDialog(FeedActivity.this);
+
+        protected void onPreExecute() {
+            //display progress dialog.
+            this.progress.setMessage("Buscando eventos...");
+            this.progress.show();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            String data = "";
+
+            HttpURLConnection httpURLConnection = null;
+            try {
+
+                httpURLConnection = (HttpURLConnection) new URL(params[0]).openConnection();
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setRequestProperty("Content-Type", "application/json;charset=utf-8");
+
+                httpURLConnection.setReadTimeout(15000 /* milliseconds */);
+                httpURLConnection.setConnectTimeout(15000 /* milliseconds */);
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setDoInput(true);
+                httpURLConnection.setDoOutput(true);
+
+                DataOutputStream wr = new DataOutputStream(httpURLConnection.getOutputStream());
+                wr.writeBytes(params[1]);
+                wr.flush();
+                wr.close();
+
+
+                //pega o codigo da requisicao http
+                int responseCode=httpURLConnection.getResponseCode();
+
+                InputStream in = httpURLConnection.getInputStream();
+                InputStreamReader inputStreamReader = new InputStreamReader(in);
+
+                int inputStreamData = inputStreamReader.read();
+                while (inputStreamData != -1) {
+                    char current = (char) inputStreamData;
+                    inputStreamData = inputStreamReader.read();
+                    data += current;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                if (httpURLConnection != null) {
+                    httpURLConnection.disconnect();
+                }
+            }
+
+            return data;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            Log.e("TAG", result); // this is expecting a response code to be sent from your server upon receiving the POST data
+            if (progress.isShowing()) {
+                progress.dismiss();
+            }
+            String titulo = "Sucesso";
+
+            JSONArray json = null;
+            Long codigo = null;
+            String msg = null;
+            String nome = null, email = null, senha = null, login = null, instituicao = null,
+                    curso = null, ocupacao = null, telefone = null;
+            int id = -1, periodo = 0;
+            Log.i("result",result);
+            try {
+                json = new JSONArray(result);
+                if (json.length() > 0) {
+                    listEvento = new ArrayList<Evento>();
+                    labelNoEvento.setVisibility(View.GONE);
+                    recyclerListFeed.setVisibility(View.VISIBLE);
+                    for(int i =0 ; i<json.length(); i++){
+                        JSONObject xx = json.getJSONObject(i);
+                        Evento ev = new Evento();
+                        ev.setId(xx.getInt("id"));
+                        ev.setDescricao(xx.getString("descricao"));
+                        ev.setTema(xx.getString("tema"));
+                        ev.setFkInstituicao(xx.getInt("fk_instituicao"));
+                        ev.setFkPalestrante(xx.getInt("fk_palestrante"));
+                        ev.setLocal(xx.getString("local"));
+                        ev.setPalestrante(xx.getString("palestrante"));
+                        mAdapter.updateList(ev);
+                    }
+
+                }else{
+                    recyclerListFeed.setVisibility(View.GONE);
+                    labelNoEvento.setVisibility(View.VISIBLE);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 }

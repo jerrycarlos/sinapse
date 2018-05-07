@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="0"
             android:orientation="horizontal"
-            android:visibility="visible">
+            android:visibility="gone">
 
             <RadioButton
                 android:id="@+id/rdPF"
@@ -252,15 +252,11 @@
                         android:hint="Telefone"
                         android:inputType="number"
                         android:maxLength="12" />
-
-                    <EditText
-                        android:id="@+id/pfInstituicao"
+                    <Spinner
+                        android:id="@+id/spinnerInstituicaoPF"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="2"
-                        android:ems="10"
-                        android:hint="Instituição"
-                        android:inputType="text" />
+                        android:layout_weight="1" />
 
                     <EditText
                         android:id="@+id/pfCurso"

@@ -1,6 +1,9 @@
 package br.com.sinapse.view;
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -10,8 +13,10 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.CheckBox;
@@ -20,10 +25,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.w3c.dom.Text;
+
+import java.io.DataOutputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 import br.com.sinapse.DBHelper.DatabaseHelper;
 import br.com.sinapse.R;
+import br.com.sinapse.config.Config;
 import br.com.sinapse.controller.DBControl;
 import br.com.sinapse.controller.JSONControl;
 import br.com.sinapse.controller.UserControl;
@@ -34,7 +48,7 @@ import br.com.sinapse.model.User;
 public class MainActivity extends AppCompatActivity {
     public static DBControl dbHelper;
     public static JSONControl jsonHelper;
-    private final AppCompatActivity activity = MainActivity.this;
+    private final Context activity = MainActivity.this;
     private static final String PREF_NAME = "MainActivityPreferences";
     private TextView userEmail, userPass;
     private CheckBox chkManter;
@@ -57,13 +71,12 @@ public class MainActivity extends AppCompatActivity {
         String login = credenciais.getString("login", "");
         String senha = credenciais.getString("senha", "");
         if(!login.equals("") && !senha.equals(""))
-            validaUsuarioParaLogar(login, senha);
+            loginUser(login,senha);
     }
 
     private boolean validarLogin(String login, String senha){
         //MainActivity.userLogado = dbHelper.buscarUser(login, senha, activity);
-        UserControl userControl = new UserControl(MainActivity.this);
-        userControl.loginUser(login,senha);
+        loginUser(login,senha);
         if(MainActivity.userLogado != null) {
             return true;
         }
@@ -95,7 +108,16 @@ public class MainActivity extends AppCompatActivity {
     public void abrirFeed(View v){
         this.userLogin = userEmail.getText().toString();
         this.userSenha = userPass.getText().toString();
-        validaUsuarioParaLogar(userLogin, userSenha);
+        if(userLogin.trim().equals("")){
+            Toast.makeText(getApplicationContext(),"Insira seu login!", Toast.LENGTH_SHORT).show();
+            return;
+        }else if(userSenha.trim().equals("")){
+            Toast.makeText(getApplicationContext(),"Insira seu senha!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if(chkManter.isChecked())
+            salvarLogin();
+        loginUser(userLogin,userSenha);
     }
 
     private void validaUsuarioParaLogar(String login, String senha){
@@ -134,5 +156,144 @@ public class MainActivity extends AppCompatActivity {
         userEmail = (TextView) findViewById(R.id.txtSingin);
         userPass = (TextView) findViewById(R.id.txtPasswordMain);
         chkManter = (CheckBox) findViewById(R.id.checkBoxLembrar);
+    }
+
+    private void loginUser(String email, String senha){
+        JSONObject postData = new JSONObject();
+        try {
+            postData.put("email",email);
+            postData.put("senha",senha);
+
+            SendDeviceDetails t = new SendDeviceDetails();
+            t.execute(Config.ip_servidor+"/buscaUser.php", postData.toString());
+            //ip externo http://179.190.193.231/cadastro.php
+            //ip interno 192.168.0.21 minha casa
+            //ip interno hotspot celular 192.168.49.199[
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    private  class SendDeviceDetails extends AsyncTask<String, Void, String> {
+        private ProgressDialog progress = new ProgressDialog(activity);
+
+        protected void onPreExecute() {
+            //display progress dialog.
+            this.progress.setMessage("Entrando...");
+            this.progress.show();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            String data = "";
+
+            HttpURLConnection httpURLConnection = null;
+            try {
+
+                httpURLConnection = (HttpURLConnection) new URL(params[0]).openConnection();
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setRequestProperty("Content-Type", "application/json;charset=utf-8");
+
+                httpURLConnection.setReadTimeout(15000 /* milliseconds */);
+                httpURLConnection.setConnectTimeout(15000 /* milliseconds */);
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setDoInput(true);
+                httpURLConnection.setDoOutput(true);
+
+                DataOutputStream wr = new DataOutputStream(httpURLConnection.getOutputStream());
+                wr.writeBytes(params[1]);
+                wr.flush();
+                wr.close();
+
+
+                //pega o codigo da requisicao http
+                int responseCode=httpURLConnection.getResponseCode();
+
+                InputStream in = httpURLConnection.getInputStream();
+                InputStreamReader inputStreamReader = new InputStreamReader(in);
+
+                int inputStreamData = inputStreamReader.read();
+                while (inputStreamData != -1) {
+                    char current = (char) inputStreamData;
+                    inputStreamData = inputStreamReader.read();
+                    data += current;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                if (httpURLConnection != null) {
+                    httpURLConnection.disconnect();
+                }
+            }
+
+            return data;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            Log.e("TAG", result); // this is expecting a response code to be sent from your server upon receiving the POST data
+            if (progress.isShowing()) {
+                progress.dismiss();
+            }
+            String titulo = "Sucesso";
+
+            JSONObject json = null;
+            Long codigo = null;
+            String msg = null;
+            String nome = null, email = null, senha = null, login = null, instituicao = null,
+                    curso = null, ocupacao = null, telefone = null;
+            int id = -1, periodo = 0;
+            Log.i("result",result);
+            try {
+                json = new JSONObject(result);
+                if (json.length() > 2) {
+                    id = json.getInt("id");
+                    nome = json.getString("nome");
+                    email = json.getString("email");
+                    login = json.getString("login");
+                    instituicao = json.getString("instituicao");
+                    curso = json.getString("curso");
+                    ocupacao = json.getString("ocupacao");
+                    periodo = json.getInt("periodo");
+                    telefone = json.getString("telefone");
+                    User usr = new User(nome, email, login, senha, ocupacao, instituicao, curso, telefone, periodo);
+                    usr.setId(id);
+                    MainActivity.userLogado = usr;
+                    msg = "Logado com sucesso.";
+                    Toast.makeText(activity,msg,Toast.LENGTH_LONG).show();
+                    mudaTela();
+                }else{
+                    titulo  = "Erro";
+                    codigo = json.getLong("erro");
+                    msg = json.getString("msg");
+                    AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+
+                    builder.setMessage(msg)
+                            .setTitle(titulo);
+                    builder.setNeutralButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                        }
+                    });
+
+                    // 3. Get the AlertDialog from create()
+                    AlertDialog dialog = builder.create();
+
+                    dialog.show();
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+    private void mudaTela(){
+        Intent i = new Intent(MainActivity.this, FeedActivity.class);
+        startActivity(i);
+        finishAffinity();
     }
 }

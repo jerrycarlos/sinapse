@@ -17,4 +17,6 @@ public class Config {
     public static final String USUARIO_SHARED_PREF = "usuario";
 
     public static final String LOGGEDIN_SHARED_PREF = "logado";
+
+    public static final String ip_servidor = "http://192.168.0.21";
 }

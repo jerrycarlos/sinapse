@@ -3,8 +3,9 @@ package br.com.sinapse.model;
 public class Evento {
     private int id, fkPalestrante, nVagas, fkInstituicao, qtdHora, duracao;
     private String tema, descricao, data, categoria;
+    private String local,palestrante;
 
-    public Evento(String tema, String descricao){
+    public Evento(String tema, String descricao) {
         this.tema = tema;
         this.descricao = descricao;
     }
@@ -29,9 +30,21 @@ public class Evento {
         this.descricao = descricao;
     }
 
-    public Evento(){
+    public Evento() {
 
     }
+
+    public String getLocal() {
+        return local;
+    }
+
+    public void setLocal(String local) {
+        this.local =local;
+    }
+
+    public String getPalestrante(){ return palestrante; }
+
+    public void setPalestrante(String palestrante){ this.palestrante = palestrante; }
 
     public int getId() {
         return id;
