@@ -212,6 +212,7 @@
             android:focusable="true"
             android:onClick="abreListaUsuariosEvento"
             android:scaleType="center"
+            android:visibility="invisible"
             app:backgroundTint="?attr/actionModeSplitBackground"
             app:fabSize="normal"
             app:srcCompat="@android:drawable/ic_search_category_default" />
