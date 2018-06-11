@@ -1,12 +1,11 @@
 package br.com.sinapse.view;
 
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
@@ -14,8 +13,11 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,15 +29,16 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import br.com.sinapse.R;
+import br.com.sinapse.adapter.LineAdapter;
 import br.com.sinapse.config.Config;
+import br.com.sinapse.firebase.UpdateTokenId;
 import br.com.sinapse.model.Evento;
-import br.com.sinapse.model.User;
 
 public class FeedActivity extends AppCompatActivity {
     RecyclerView mRecyclerView;
+    SwipeRefreshLayout mSwipeRefresh;
     private int id = 1;
     public LineAdapter mAdapter;
     public static Evento eventoId;
@@ -44,6 +47,7 @@ public class FeedActivity extends AppCompatActivity {
     private TextView labelUser, labelNoEvento;
     private RecyclerView recyclerListFeed;
     private static final String PREF_NAME = "MainActivityPreferences";
+    public static ImageView imgProfile;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +56,17 @@ public class FeedActivity extends AppCompatActivity {
         getSupportActionBar().hide(); //esconder ActionBar
         //mRecyclerView = new RecyclerView();
         //loadEvento();
+        imgProfile = (ImageView) findViewById(R.id.imgUser);
+        UpdateTokenId.updateTokenUser(true);
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_list);
+        mSwipeRefresh = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_feedlayout);
+        mSwipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // Refresh items
+                refreshContent();
+            }
+        });
         this.result = MainActivity.result;
         mAdapter = new LineAdapter(new ArrayList<>(0));
         setupRecycler();
@@ -64,29 +78,18 @@ public class FeedActivity extends AppCompatActivity {
         listaEvento();
     }
 
-    private void loadEvento(){
-        //Evento evento = EventoFactory.makeEvento();
-        //evento.setId(id);
-        id++;
-        ArrayList<Evento> e = MainActivity.dbHelper.buscaListEvento();
-        if(e!=null) {
-            labelNoEvento.setVisibility(View.GONE);
-            recyclerListFeed.setVisibility(View.VISIBLE);
-            for (Evento evento : e)
-                mAdapter.updateList(evento);
-        }
-        else{
-            recyclerListFeed.setVisibility(View.GONE);
-            labelNoEvento.setVisibility(View.VISIBLE);
-
-        }
-        //mAdapter.notifyDataSetChanged();
-
+    private void refreshContent(){
+        listaEvento();
     }
 
-    public void setupView(View view) {
-        loadEvento();
+    void onItemsLoadComplete() {
+        // Update the adapter and notify data set changed
+        // ...
+
+        // Stop refresh animation
+        mSwipeRefresh.setRefreshing(false);
     }
+
 
     /**
      * Abre informacao do evento selecionado
@@ -124,7 +127,17 @@ public class FeedActivity extends AppCompatActivity {
         finishAffinity();
     }
 
+    private void salvarLogin(){
+        SharedPreferences sharedPref = getSharedPreferences(PREF_NAME,Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString("login", MainActivity.userLogado.getLogin());
+        editor.putString("senha", MainActivity.userLogado.getSenha());
+        editor.commit();
+    }
+
     private void esqueceUsuario(){
+        UpdateTokenId.updateTokenUser(false);
+
         SharedPreferences sharedPref = getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putString("login", "");
@@ -161,7 +174,7 @@ public class FeedActivity extends AppCompatActivity {
     @Override
     public void onResume(){
         super.onResume();
-        //listaEvento();
+        listaEvento();
     }
 
 
@@ -179,6 +192,8 @@ public class FeedActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
+
 
 
     private  class SendDeviceDetails extends AsyncTask<String, Void, String> {
@@ -259,6 +274,7 @@ public class FeedActivity extends AppCompatActivity {
                     listEvento = new ArrayList<Evento>();
                     labelNoEvento.setVisibility(View.GONE);
                     recyclerListFeed.setVisibility(View.VISIBLE);
+                    mAdapter.clearList();
                     for(int i =0 ; i<json.length(); i++){
                         JSONObject xx = json.getJSONObject(i);
                         Evento ev = new Evento();
@@ -271,7 +287,8 @@ public class FeedActivity extends AppCompatActivity {
                         ev.setPalestrante(xx.getString("palestrante"));
                         mAdapter.updateList(ev);
                     }
-
+                    //Swipe load complete
+                    onItemsLoadComplete();
                 }else{
                     recyclerListFeed.setVisibility(View.GONE);
                     labelNoEvento.setVisibility(View.VISIBLE);

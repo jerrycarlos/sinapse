@@ -19,4 +19,6 @@ public class Config {
     public static final String LOGGEDIN_SHARED_PREF = "logado";
 
     public static final String ip_servidor = "http://sebosao.000webhostapp.com/project-sinapse";
+
+    public static final String ip_servidorFirebase = "http://sebosao.000webhostapp.com/firebaseAdmin";
 }

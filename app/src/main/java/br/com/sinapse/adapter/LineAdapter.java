@@ -1,18 +1,15 @@
-package br.com.sinapse.view;
+package br.com.sinapse.adapter;
 
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import br.com.sinapse.R;
 import br.com.sinapse.model.Evento;
+import br.com.sinapse.holder.LineHolder;
 
 public class LineAdapter  extends RecyclerView.Adapter<LineHolder> {
     private final List<Evento> evento;
@@ -41,6 +38,10 @@ public class LineAdapter  extends RecyclerView.Adapter<LineHolder> {
 
     public void updateList(Evento evento) {
         insertItem(evento);
+    }
+
+    public void clearList(){
+        this.evento.clear();
     }
 
     // Método responsável por inserir um novo usuário na lista

@@ -1,4 +1,4 @@
-package br.com.sinapse.view;
+package br.com.sinapse.holder;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;

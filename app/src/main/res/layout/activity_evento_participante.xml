@@ -1,38 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".view.EventoParticipante">
 
     <TextView
         android:id="@+id/lblEvento"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginBottom="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:text="TextView" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:gravity="center"
-        android:text="Nome : Instituição" />
+        android:layout_marginTop="10dp"
+        android:text="Nome Evento" />
 
-    <ListView
+    <TextView
+        android:id="@+id/lblCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/lblEvento"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:text="Quantidade de pessoas:" />
+
+    <TextView
+        android:id="@+id/txtCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/lblEvento"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_toEndOf="@+id/lblCount"
+        android:gravity="center"
+        android:text="0" />
+
+    <TextView
+        android:id="@+id/lblList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/lblCount"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="10dp"
+        android:text="Participantes" />
+
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/listUserEvent"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/lblList"
         android:layout_marginBottom="20dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
+        android:layout_marginTop="10dp"
         android:layout_weight="1"
-        android:isScrollContainer="true" />
+        android:isScrollContainer="true"
+        tools:listitem="@layout/listview_list" />
 
-</LinearLayout>
+</RelativeLayout>

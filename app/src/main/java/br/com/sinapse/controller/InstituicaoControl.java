@@ -1,157 +1,160 @@
 package br.com.sinapse.controller;
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.ContentValues;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.AsyncTask;
 import android.provider.ContactsContract;
+import android.util.Log;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.DataOutputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 
-import br.com.sinapse.DBHelper.DBComands;
-import br.com.sinapse.DBHelper.DatabaseHelper;
+import br.com.sinapse.config.Config;
 import br.com.sinapse.model.Evento;
 import br.com.sinapse.model.Instituicao;
 import br.com.sinapse.view.CadastroActivity;
 import br.com.sinapse.view.MainActivity;
 
 public class InstituicaoControl {
-
-    public static String addInstituicao(Instituicao inst, DatabaseHelper banco) {
-        long result = -1;
-        SQLiteDatabase db = banco.getReadableDatabase();
-        String[] retorno = {"*"};
-        String clause = DBComands.COLUMN_PJ_CNPJ + " = ?";
-        String[] clauses = { inst.getCnpj() };
-        Cursor c = db.query(DBComands.TABLE_INSTITUICAO,retorno,clause,clauses,null,null,null);
-        //verifica se cnpj ja existe
-        if(c.getCount()>0)
-            return "CNPJ já cadastrado!";
-        //verifica se email ja existe
-        clause = DBComands.COLUMN_PJ_EMAIL + " = ?";
-        clauses[0] = inst.getEmail();
-        c = db.query(DBComands.TABLE_INSTITUICAO,retorno,clause,clauses,null,null,null);
-        if(c.getCount()>0)
-            return "Email já cadastrado!";
-        //verifica se login ja existe
-        clause = DBComands.COLUMN_PJ_LOGIN + " = ?";
-        clauses[0] = inst.getLogin();
-        c = db.query(DBComands.TABLE_INSTITUICAO,retorno,clause,clauses,null,null,null);
-        if(c.getCount()>0)
-            return "Login já existe!";
-
-        db = banco.getWritableDatabase();
-        db.beginTransaction();
-        try {
-            ContentValues values = new ContentValues();
-            values.put(DBComands.COLUMN_PJ_CNPJ, inst.getCnpj());
-            values.put(DBComands.COLUMN_PJ_NOME, inst.getNome());
-            values.put(DBComands.COLUMN_PJ_EMAIL, inst.getEmail());
-            values.put(DBComands.COLUMN_PJ_PASSWORD, inst.getSenha());
-            MainActivity.result = db.insert(DBComands.TABLE_INSTITUICAO, null, values);
-            if (MainActivity.result != -1)
-                db.setTransactionSuccessful();
-        } finally {
-            db.endTransaction();
-            return "Registro efetuado com sucesso!";
+    private static Context activity;
+    private static Spinner s;
+    private static void preencheListaInstituicao(ArrayList<String> array_spinner){
+        //ArrayList<String> array_spinner = MainActivity.dbHelper.buscaInstituicao();
+        if(array_spinner != null) {
+            ArrayAdapter adapter = new ArrayAdapter(activity,
+                    android.R.layout.simple_spinner_item, array_spinner);
+            s.setAdapter(adapter);
         }
-    }
-
-    public static ArrayList<String> buscaInstituicao(DatabaseHelper banco){
-        SQLiteDatabase db = banco.getWritableDatabase();
-        String[] projection = {
-                DBComands.COLUMN_PJ_NOME
-        };
-// How you want the results sorted in the resulting Cursor
-        String sortOrder = DBComands.COLUMN_PJ_ID + " ASC";
-
-        Cursor c = db.query(
-                DBComands.TABLE_INSTITUICAO,                     // The table to query
-                projection,                               // The columns to return
-                null,                                // The columns for the WHERE clause
-                null,                            // The values for the WHERE clause
-                null,                                     // don't group the rows
-                null,                                     // don't filter by row groups
-                sortOrder                                 // The sort order
-        );
-        ArrayList<String> inst = null;
-        if(c.getCount() > 0) {
-            inst = new ArrayList<String>();
-            c.moveToFirst();
-            do {
-                inst.add(preencherListString(c,DBComands.COLUMN_PJ_NOME));
-            }while(c.moveToNext());
-        }
-        return inst;
-    }
-
-    public static Instituicao buscaInstituicao(int id, DatabaseHelper banco){
-        SQLiteDatabase db = banco.getWritableDatabase();
-        String[] projection = {
-                "*"
-        };
-
-        //clausuras do where, quais atributos quero filtrar
-        String whereClause = DBComands.COLUMN_PJ_ID + " = ?";
-        //valores que quero comprar cm as colunas que estao no where
-        String[] whereValues = { String.valueOf(id) };
-// How you want the results sorted in the resulting Cursor
-        String sortOrder = DBComands.COLUMN_PJ_ID + " ASC";
-
-        Cursor c = db.query(
-                DBComands.TABLE_INSTITUICAO,                     // The table to query
-                projection,                               // The columns to return
-                null,                                // The columns for the WHERE clause
-                null,                            // The values for the WHERE clause
-                null,                                     // don't group the rows
-                null,                                     // don't filter by row groups
-                sortOrder                                 // The sort order
-        );
-        Instituicao inst = null;
-        if(c.getCount() > 0) {
-            inst = new Instituicao();
-            c.moveToFirst();
-            inst.setCnpj(c.getString(c.getColumnIndexOrThrow(DBComands.COLUMN_PJ_CNPJ)));
-            inst.setEmail(c.getString(c.getColumnIndexOrThrow(DBComands.COLUMN_PJ_EMAIL)));
-            inst.setId(c.getInt(c.getColumnIndexOrThrow(DBComands.COLUMN_PJ_ID)));
-            inst.setNome(c.getString(c.getColumnIndexOrThrow(DBComands.COLUMN_PJ_NOME)));
-            inst.setLogin(c.getString(c.getColumnIndexOrThrow(DBComands.COLUMN_PJ_LOGIN)));
-        }
-        return inst;
     }
 
     /**
-     * busca id da instituicao com o nome
-     * @param nome
-     * @return
+     *
+     * @param tela Context para obter controle da tela em que o usuário está
+     * @param spinner Referência do spinner em que será preenchido as instituições cadastradas no banco
      */
-    public static int buscaIdInstituicao(String nome, DatabaseHelper banco){
-        SQLiteDatabase db = banco.getWritableDatabase();
-        String[] projection = {
-                DBComands.COLUMN_PJ_ID
-        };
+    public static void buscaInstituicoes(Context tela, Spinner spinner){
+        activity = tela;
+        s = spinner;
+        JSONObject postData = new JSONObject();
+        try {
+            postData.put("teste","teste");
 
-        String whereClause = DBComands.COLUMN_PJ_NOME + " = ? ";
-        String[] clauses = { nome };
-// How you want the results sorted in the resulting Cursor
-        String sortOrder = DBComands.COLUMN_PJ_ID + " ASC";
-
-        Cursor c = db.query(
-                DBComands.TABLE_INSTITUICAO,                     // The table to query
-                projection,                               // The columns to return
-                whereClause,                                // The columns for the WHERE clause
-                clauses,                            // The values for the WHERE clause
-                null,                                     // don't group the rows
-                null,                                     // don't filter by row groups
-                sortOrder                                 // The sort order
-        );
-        if(c.getCount() > 0) {
-            c.moveToFirst();
-            return c.getInt(c.getColumnIndexOrThrow(DBComands.COLUMN_PJ_ID));
+            SendDeviceDetails t = new SendDeviceDetails();
+            t.execute(Config.ip_servidor+"/buscaInstituicao.php", postData.toString());
+            //ip externo http://179.190.193.231/cadastro.php
+            //ip interno 192.168.0.21 minha casa
+            //ip interno hotspot celular 192.168.49.199[
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-        return -1;
     }
 
-    private static String preencherListString(Cursor resultSet, String coluna) {
-        return resultSet.getString(resultSet.getColumnIndexOrThrow(coluna));
+    private static class SendDeviceDetails extends AsyncTask<String, Void, String> {
+        private ProgressDialog progress = new ProgressDialog(activity);
+
+        protected void onPreExecute() {
+            //display progress dialog.
+           this.progress.setMessage("Carregando instituições...");
+            this.progress.show();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            String data = "";
+
+            HttpURLConnection httpURLConnection = null;
+            try {
+
+                httpURLConnection = (HttpURLConnection) new URL(params[0]).openConnection();
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setRequestProperty("Content-Type", "application/json;charset=utf-8");
+
+                httpURLConnection.setReadTimeout(15000 /* milliseconds */);
+                httpURLConnection.setConnectTimeout(15000 /* milliseconds */);
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setDoInput(true);
+                httpURLConnection.setDoOutput(true);
+
+                DataOutputStream wr = new DataOutputStream(httpURLConnection.getOutputStream());
+                wr.writeBytes(params[1]);
+                wr.flush();
+                wr.close();
+
+
+                //pega o codigo da requisicao http
+                int responseCode=httpURLConnection.getResponseCode();
+
+                InputStream in = httpURLConnection.getInputStream();
+                InputStreamReader inputStreamReader = new InputStreamReader(in);
+
+                int inputStreamData = inputStreamReader.read();
+                while (inputStreamData != -1) {
+                    char current = (char) inputStreamData;
+                    inputStreamData = inputStreamReader.read();
+                    data += current;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                if (httpURLConnection != null) {
+                    httpURLConnection.disconnect();
+                }
+            }
+
+            return data;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            Log.e("TAG", result); // this is expecting a response code to be sent from your server upon receiving the POST data
+            if (progress.isShowing()) {
+                progress.dismiss();
+            }
+
+            JSONObject json = null;
+            Long codigo = null;
+            String msg = null;
+            String nome = null, email = null, senha = null, login = null, instituicao = null,
+                    curso = null, ocupacao = null, telefone = null;
+            int id = -1, periodo = 0;
+            Log.i("result",result);
+            try {
+                    JSONArray jsonArray = new JSONArray(result);
+                    ArrayList<String> listInstituicao = null;
+                    if (jsonArray.length() > 0) {
+                        listInstituicao = new ArrayList<String>();
+                        listInstituicao.add("Qual a sua Instituição?");
+                        for(int i =0 ; i<jsonArray.length(); i++){
+                            JSONObject xx = jsonArray.getJSONObject(i);
+                            Instituicao inst = new Instituicao();
+                            inst.setId(xx.getInt("id"));
+                            inst.setNome((xx.getString("nome")));
+                            listInstituicao.add(inst.getNome());
+                        }
+                    }
+                    preencheListaInstituicao(listInstituicao);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 }

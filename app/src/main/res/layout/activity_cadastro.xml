@@ -206,6 +206,14 @@
                     android:orientation="vertical"
                     android:visibility="visible">
 
+                    <ImageView
+                        android:id="@+id/imgPerfil"
+                        android:layout_width="wrap_content"
+                        android:layout_height="100dp"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        app:srcCompat="@drawable/perfil" />
+
                     <EditText
                         android:id="@+id/pfNome"
                         android:layout_width="match_parent"
@@ -252,6 +260,7 @@
                         android:hint="Telefone"
                         android:inputType="number"
                         android:maxLength="12" />
+
                     <Spinner
                         android:id="@+id/spinnerInstituicaoPF"
                         android:layout_width="match_parent"

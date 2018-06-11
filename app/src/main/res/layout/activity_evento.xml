@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -10,212 +10,249 @@
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="10dp"
         android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp">
+        android:layout_marginRight="10dp">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/txtTemaEvent"
+            <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="Tema"
-                android:textSize="40sp" />
+                android:layout_height="match_parent"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="1">
 
-            <TextView
-                android:id="@+id/lblData"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/txtTemaEvent"
-                android:text="Data:"
-                android:textSize="25sp" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/txtDataEvent"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/txtTemaEvent"
-                android:layout_marginTop="5dp"
-                android:layout_toRightOf="@+id/lblData"
-                android:text="01/01/0001"
-                android:textSize="20sp" />
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:orientation="vertical"
+                        android:visibility="visible">
 
-            <TextView
-                android:id="@+id/lblVagas"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/txtTemaEvent"
-                android:layout_toLeftOf="@+id/txtVagas"
-                android:text="Vagas:"
-                android:textSize="25sp" />
+                        <TextView
+                            android:id="@+id/txtTemaEvent"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="Tema"
+                            android:textSize="40sp" />
 
-            <TextView
-                android:id="@+id/txtVagas"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignRight="@+id/txtTemaEvent"
-                android:layout_below="@+id/txtTemaEvent"
-                android:layout_marginTop="5dp"
-                android:text="5555"
-                android:textSize="20sp" />
+                        <TextView
+                            android:id="@+id/lblData"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/txtTemaEvent"
+                            android:text="Data:"
+                            android:textSize="25sp" />
 
-            <TextView
-                android:id="@+id/lblPalestrante"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/txtDataEvent"
-                android:text="Palestrante:"
-                android:textSize="25sp" />
+                        <TextView
+                            android:id="@+id/txtDataEvent"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/txtTemaEvent"
+                            android:layout_marginTop="5dp"
+                            android:layout_toRightOf="@+id/lblData"
+                            android:text="01/01/0001"
+                            android:textSize="20sp" />
 
-            <TextView
-                android:id="@+id/txtPalestrante"
+                        <TextView
+                            android:id="@+id/lblVagas"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/txtTemaEvent"
+                            android:layout_toLeftOf="@+id/txtVagas"
+                            android:text="Vagas:"
+                            android:textSize="25sp" />
+
+                        <TextView
+                            android:id="@+id/txtVagas"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignRight="@+id/txtTemaEvent"
+                            android:layout_below="@+id/txtTemaEvent"
+                            android:layout_marginTop="5dp"
+                            android:text="5555"
+                            android:textSize="20sp" />
+
+                        <TextView
+                            android:id="@+id/lblPalestrante"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/txtDataEvent"
+                            android:text="Palestrante:"
+                            android:textSize="25sp" />
+
+                        <TextView
+                            android:id="@+id/txtPalestrante"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/txtDataEvent"
+                            android:layout_marginTop="5dp"
+                            android:layout_toRightOf="@+id/lblPalestrante"
+                            android:text="Josefino da Silva"
+                            android:textSize="20sp" />
+
+                        <TextView
+                            android:id="@+id/lblDescricao"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/lblPalestrante"
+                            android:layout_marginTop="5dp"
+                            android:gravity="center"
+                            android:text="Descrição:"
+                            android:textSize="25sp" />
+
+                        <TextView
+                            android:id="@+id/txtDescricao"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/lblDescricao"
+                            android:layout_marginTop="5dp"
+                            android:text='"Nulla egestas nibh augue, a bibendum sapien ullamcorper non. Aliquam volutpat turpis id gravida commodo. Ut at laoreet tortor."'
+                            android:textSize="20sp" />
+
+                        <TextView
+                            android:id="@+id/lblDuracao"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/txtDescricao"
+                            android:layout_marginTop="5dp"
+                            android:text="Duração:"
+                            android:textSize="20sp" />
+
+                        <TextView
+                            android:id="@+id/txtDuracao"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/txtDescricao"
+                            android:layout_marginTop="5dp"
+                            android:layout_toRightOf="@+id/lblDuracao"
+                            android:text=" 00:00"
+                            android:textSize="20sp" />
+
+                        <TextView
+                            android:id="@+id/lblCategoria"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/lblDuracao"
+                            android:layout_marginTop="5dp"
+                            android:text="Categoria:"
+                            android:textSize="20sp" />
+
+                        <TextView
+                            android:id="@+id/txtCategoria"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/txtDuracao"
+                            android:layout_marginTop="5dp"
+                            android:layout_toRightOf="@+id/lblCategoria"
+                            android:text="TI Verde"
+                            android:textSize="20sp" />
+
+                        <TextView
+                            android:id="@+id/lblLocal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/lblCategoria"
+                            android:layout_marginTop="5dp"
+                            android:text="Local:"
+                            android:textSize="20sp" />
+
+                        <TextView
+                            android:id="@+id/txtLocal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/txtCategoria"
+                            android:layout_marginTop="5dp"
+                            android:layout_toRightOf="@+id/lblLocal"
+                            android:text="Estácio de Sá"
+                            android:textSize="20sp" />
+
+                        <TextView
+                            android:id="@+id/lblHora"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/lblLocal"
+                            android:layout_marginTop="5dp"
+                            android:text="Hora:"
+                            android:textSize="20sp" />
+
+                        <TextView
+                            android:id="@+id/txtHora"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/txtLocal"
+                            android:layout_marginTop="5dp"
+                            android:layout_toRightOf="@+id/lblHora"
+                            android:text="50h"
+                            android:textSize="20sp" />
+
+                        <TextView
+                            android:id="@+id/txtEventId"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/lblHora"
+                            android:layout_marginTop="5dp"
+                            android:text="#_id"
+                            android:textSize="22sp" />
+
+                        <android.support.design.widget.FloatingActionButton
+                            android:id="@+id/floatingActionButton"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/txtEventId"
+                            android:layout_gravity="bottom|center"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:onClick="clickInscricao"
+                            android:scaleType="center"
+                            app:backgroundTint="?attr/actionModeSplitBackground"
+                            app:fabSize="normal"
+                            app:srcCompat="@android:drawable/ic_menu_edit" />
+
+                        <android.support.design.widget.FloatingActionButton
+                            android:id="@+id/floatingActionButton2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignRight="@+id/txtTemaEvent"
+                            android:layout_below="@+id/txtEventId"
+                            android:layout_gravity="bottom|right"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:onClick="abreListaUsuariosEvento"
+                            android:scaleType="center"
+                            android:visibility="visible"
+                            app:backgroundTint="?attr/actionModeSplitBackground"
+                            app:fabSize="normal"
+                            app:srcCompat="@android:drawable/ic_search_category_default" />
+
+                    </RelativeLayout>
+
+
+                </LinearLayout>
+            </ScrollView>
+
+            <fragment
+                android:id="@+id/map"
+                android:name="com.google.android.gms.maps.SupportMapFragment"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/txtDataEvent"
-                android:layout_marginTop="5dp"
-                android:layout_toRightOf="@+id/lblPalestrante"
-                android:text="Josefino da Silva"
-                android:textSize="20sp" />
+                android:layout_height="match_parent"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
+                tools:context=".view.EventoActivity" />
 
-            <TextView
-                android:id="@+id/lblDescricao"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/lblPalestrante"
-                android:layout_marginTop="5dp"
-                android:gravity="center"
-                android:text="Descrição:"
-                android:textSize="25sp" />
+        </LinearLayout>
 
-            <TextView
-                android:id="@+id/txtDescricao"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/lblDescricao"
-                android:layout_marginTop="5dp"
-                android:text='"Nulla egestas nibh augue, a bibendum sapien ullamcorper non. Aliquam volutpat turpis id gravida commodo. Ut at laoreet tortor."'
-                android:textSize="20sp" />
-
-            <TextView
-                android:id="@+id/lblDuracao"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/txtDescricao"
-                android:layout_marginTop="5dp"
-                android:text="Duração:"
-                android:textSize="20sp" />
-
-            <TextView
-                android:id="@+id/txtDuracao"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/txtDescricao"
-                android:layout_marginTop="5dp"
-                android:layout_toRightOf="@+id/lblDuracao"
-                android:text=" 00:00"
-                android:textSize="20sp" />
-
-            <TextView
-                android:id="@+id/lblCategoria"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/lblDuracao"
-                android:layout_marginTop="5dp"
-                android:text="Categoria:"
-                android:textSize="20sp" />
-
-            <TextView
-                android:id="@+id/txtCategoria"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/txtDuracao"
-                android:layout_marginTop="5dp"
-                android:layout_toRightOf="@+id/lblCategoria"
-                android:text="TI Verde"
-                android:textSize="20sp" />
-
-            <TextView
-                android:id="@+id/lblLocal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/lblCategoria"
-                android:layout_marginTop="5dp"
-                android:text="Local:"
-                android:textSize="20sp" />
-
-            <TextView
-                android:id="@+id/txtLocal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/txtCategoria"
-                android:layout_marginTop="5dp"
-                android:layout_toRightOf="@+id/lblLocal"
-                android:text="Estácio de Sá"
-                android:textSize="20sp" />
-
-            <TextView
-                android:id="@+id/lblHora"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/lblLocal"
-                android:layout_marginTop="5dp"
-                android:text="Hora:"
-                android:textSize="20sp" />
-
-            <TextView
-                android:id="@+id/txtHora"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/txtLocal"
-                android:layout_marginTop="5dp"
-                android:layout_toRightOf="@+id/lblHora"
-                android:text="50h"
-                android:textSize="20sp" />
-
-            <TextView
-                android:id="@+id/txtEventId"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/lblHora"
-                android:layout_marginTop="5dp"
-                android:text="#_id"
-                android:textSize="22sp" />
-        </RelativeLayout>
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/floatingActionButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|center"
-            android:clickable="true"
-            android:focusable="true"
-            android:onClick="clickInscricao"
-            android:scaleType="center"
-            app:backgroundTint="?attr/actionModeSplitBackground"
-            app:fabSize="normal"
-            app:srcCompat="@android:drawable/ic_menu_edit" />
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/floatingActionButton2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|right"
-            android:clickable="true"
-            android:focusable="true"
-            android:onClick="abreListaUsuariosEvento"
-            android:scaleType="center"
-            android:visibility="invisible"
-            app:backgroundTint="?attr/actionModeSplitBackground"
-            app:fabSize="normal"
-            app:srcCompat="@android:drawable/ic_search_category_default" />
     </android.support.v7.widget.CardView>
 
-</FrameLayout>
+</LinearLayout>

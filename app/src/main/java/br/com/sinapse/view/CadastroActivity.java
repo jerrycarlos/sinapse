@@ -1,41 +1,25 @@
 package br.com.sinapse.view;
 
-import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.AsyncTask;
+import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.DataOutputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.ArrayList;
-
 import br.com.sinapse.R;
-import br.com.sinapse.config.Config;
-import br.com.sinapse.controller.CadastroUserControl;
-import br.com.sinapse.controller.DBControl;
-import br.com.sinapse.controller.JSONControl;
-import br.com.sinapse.model.Instituicao;
+import br.com.sinapse.controller.InstituicaoControl;
+import br.com.sinapse.controller.UserControl;
 import br.com.sinapse.model.User;
 
 public class CadastroActivity extends AppCompatActivity {
@@ -43,15 +27,15 @@ public class CadastroActivity extends AppCompatActivity {
     private EditText pjNome, pjEmail, pjLogin, pjSenha, pjCnpj;
     private LinearLayout layoutPessoaF, layoutPessoaJ;
     private RadioButton rdPF, rdPJ;
-    private Spinner s;
+    public static Spinner s;
     private Button btRegistro;
     private Context context;
-    private DBControl dbHelper;
     private final AppCompatActivity activity = CadastroActivity.this;
     public static boolean result = false;
     private int operacao = 0;
-    //private DatabaseHelper databaseHelper;
-    //private InputValidation inputValidation;
+    static final int REQUEST_IMAGE_CAPTURE = 1;
+    private ImageView imgPerfil;
+    private static Bitmap foto;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,7 +46,7 @@ public class CadastroActivity extends AppCompatActivity {
         s = (Spinner) findViewById(R.id.spinnerInstituicaoPF);
         iniciarObjetos();
 
-        buscaInstituicoes();
+        InstituicaoControl.buscaInstituicoes(CadastroActivity.this,s);
         //initObjects();
     }
 
@@ -128,8 +112,10 @@ public class CadastroActivity extends AppCompatActivity {
             }
             curso = txtCurso.getText().toString();
 
-            if(txtPeriodo.getText().toString().trim().equals(""))
-                periodo = 0;
+            if(txtPeriodo.getText().toString().trim().equals("") || Integer.parseInt(txtPeriodo.getText().toString()) > 12 || Integer.parseInt(txtPeriodo.getText().toString()) < 1) {
+                Toast.makeText(getApplicationContext(), "Insira seu período atual. (De 1 à 12) ", Toast.LENGTH_SHORT).show();
+                return;
+            }
             else periodo = Integer.parseInt(txtPeriodo.getText().toString());
             ocup = txtOcup.getText().toString();
             user = new User(nome, email, login, senha, ocup, inst, curso, fone, periodo);
@@ -152,207 +138,9 @@ public class CadastroActivity extends AppCompatActivity {
      */
     private void postDataToSQLite(User user) {
         //Toast.makeText(getApplicationContext(), MainActivity.dbHelper.addUser(user), Toast.LENGTH_LONG).show();
-            cadastroEntidade(user);
+            UserControl.cadastroEntidade(user, CadastroActivity.this);
     }
 
-
-    private void mudaTela(){
-        Intent i = new Intent(CadastroActivity.this, FeedActivity.class);
-        startActivity(i);
-        finishAffinity();
-    }
-
-    private void postDataToSQLite(Instituicao inst){
-        Toast.makeText(getApplicationContext(), MainActivity.dbHelper.addUser(inst), Toast.LENGTH_LONG).show();
-        if(MainActivity.result > 0){
-            Intent i = new Intent(CadastroActivity.this, MainActivity.class);
-            startActivity(i);
-            finishAffinity();
-        }
-    }
-
-    private void cadastroEntidade(User u) {
-        JSONObject postData = new JSONObject();
-        try {
-            postData.put("nome",u.getNome());
-            postData.put("email",u.getEmail());
-            postData.put("senha",u.getSenha());
-            postData.put("login",u.getLogin());
-            postData.put("telefone",u.getTelefone());
-            postData.put("instituicao",u.getInstituicao());
-            postData.put("curso",u.getCurso());
-            postData.put("periodo",u.getPeriodo());
-            postData.put("ocupacao",u.getOcupacao());
-            operacao = 1;
-            SendDeviceDetails t = new SendDeviceDetails();
-            t.execute(Config.ip_servidor+"/cadastroUsuario.php", postData.toString());
-            //ip externo http://179.190.193.231/cadastro.php
-            //ip interno 192.168.0.21 minha casa
-            //ip interno hotspot celular 192.168.49.199[
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void preencheListaInstituicao(ArrayList<String> array_spinner){
-        //ArrayList<String> array_spinner = MainActivity.dbHelper.buscaInstituicao();
-        if(array_spinner != null) {
-            ArrayAdapter adapter = new ArrayAdapter(this,
-                    android.R.layout.simple_spinner_item, array_spinner);
-            s.setAdapter(adapter);
-        }
-    }
-
-    private void buscaInstituicoes(){
-        JSONObject postData = new JSONObject();
-        try {
-            operacao = 2;
-            postData.put("teste","teste");
-
-            SendDeviceDetails t = new SendDeviceDetails();
-            t.execute(Config.ip_servidor+"/buscaInstituicao.php", postData.toString());
-            //ip externo http://179.190.193.231/cadastro.php
-            //ip interno 192.168.0.21 minha casa
-            //ip interno hotspot celular 192.168.49.199[
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private class SendDeviceDetails extends AsyncTask<String, Void, String> {
-        private ProgressDialog progress = new ProgressDialog(activity);
-
-        protected void onPreExecute() {
-            //display progress dialog.
-            if(operacao == 1)
-                this.progress.setMessage("Registrando usuário...");
-            else if(operacao == 2)
-                this.progress.setMessage("Carregando instituições...");
-            this.progress.show();
-        }
-
-        @Override
-        protected String doInBackground(String... params) {
-
-            String data = "";
-
-            HttpURLConnection httpURLConnection = null;
-            try {
-
-                httpURLConnection = (HttpURLConnection) new URL(params[0]).openConnection();
-                httpURLConnection.setRequestMethod("POST");
-                httpURLConnection.setRequestProperty("Content-Type", "application/json;charset=utf-8");
-
-                httpURLConnection.setReadTimeout(15000 /* milliseconds */);
-                httpURLConnection.setConnectTimeout(15000 /* milliseconds */);
-                httpURLConnection.setRequestMethod("POST");
-                httpURLConnection.setDoInput(true);
-                httpURLConnection.setDoOutput(true);
-
-                DataOutputStream wr = new DataOutputStream(httpURLConnection.getOutputStream());
-                wr.writeBytes(params[1]);
-                wr.flush();
-                wr.close();
-
-
-                //pega o codigo da requisicao http
-                int responseCode=httpURLConnection.getResponseCode();
-
-                InputStream in = httpURLConnection.getInputStream();
-                InputStreamReader inputStreamReader = new InputStreamReader(in);
-
-                int inputStreamData = inputStreamReader.read();
-                while (inputStreamData != -1) {
-                    char current = (char) inputStreamData;
-                    inputStreamData = inputStreamReader.read();
-                    data += current;
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
-                if (httpURLConnection != null) {
-                    httpURLConnection.disconnect();
-                }
-            }
-
-            return data;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            super.onPostExecute(result);
-            Log.e("TAG", result); // this is expecting a response code to be sent from your server upon receiving the POST data
-            if (progress.isShowing()) {
-                progress.dismiss();
-            }
-
-            JSONObject json = null;
-            Long codigo = null;
-            String msg = null;
-            String nome = null, email = null, senha = null, login = null, instituicao = null,
-                    curso = null, ocupacao = null, telefone = null;
-            int id = -1, periodo = 0;
-            Log.i("result",result);
-            try {
-                if(operacao > 1){
-                    JSONArray jsonArray = new JSONArray(result);
-                    ArrayList<String> listInstituicao = null;
-                    if (jsonArray.length() > 0) {
-                        listInstituicao = new ArrayList<String>();
-                        listInstituicao.add("Qual a sua Instituição?");
-                        for(int i =0 ; i<jsonArray.length(); i++){
-                            JSONObject xx = jsonArray.getJSONObject(i);
-                            Instituicao inst = new Instituicao();
-                            inst.setId(xx.getInt("id"));
-                            inst.setNome((xx.getString("nome")));
-                            listInstituicao.add(inst.getNome());
-
-                        }
-                    }
-                    preencheListaInstituicao(listInstituicao);
-                }else {
-                    json = new JSONObject(result);
-                    codigo = json.getLong("status");
-                    msg = json.getString("msg");
-                    if (codigo > 0) {
-                        id = json.getInt("id");
-                        nome = json.getString("nome");
-                        email = json.getString("email");
-                        login = json.getString("login");
-                        instituicao = json.getString("instituicao");
-                        curso = json.getString("curso");
-                        ocupacao = json.getString("ocupacao");
-                        periodo = json.getInt("periodo");
-                        telefone = json.getString("telefone");
-                        User usr = new User(nome, email, login, senha, ocupacao, instituicao, curso, telefone, periodo);
-                        usr.setId(id);
-                        MainActivity.userLogado = usr;
-                        Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
-                        mudaTela();
-                    } else {
-                        String titulo = "Erro";
-                        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-
-                        builder.setMessage(msg)
-                                .setTitle(titulo);
-                        builder.setNeutralButton("OK", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        });
-
-                        // 3. Get the AlertDialog from create()
-                        AlertDialog dialog = builder.create();
-
-                        dialog.show();
-                    }
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-
-    }
 
     public void rdPessoa(View v){
         switch (v.getId()){
@@ -365,12 +153,6 @@ public class CadastroActivity extends AppCompatActivity {
                 layoutPessoaJ.setVisibility(View.VISIBLE);
                 break;
         }
-    }
-
-    private void initObjects() {
-        dbHelper = new DBControl(activity);
-        //databaseHelper = new DatabaseHelper(activity);
-        //inputValidation = new InputValidation(activity);
     }
 
     private void iniciarObjetos(){
@@ -392,5 +174,35 @@ public class CadastroActivity extends AppCompatActivity {
         pjLogin = (EditText) findViewById(R.id.pjLogin);
         pjSenha = (EditText) findViewById(R.id.pjSenha);
         pjCnpj = (EditText) findViewById(R.id.pjCnpj);
+        this.imgPerfil = (ImageView) findViewById(R.id.imgPerfil);
+        this.imgPerfil.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                baterFoto();
+            }
+        });
+    }
+
+    private void baterFoto(){
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            this.foto = imageBitmap;
+            this.imgPerfil.setImageBitmap(imageBitmap);
+        }
+        else {
+            Toast.makeText(getApplicationContext(),"Captura de foto não pôde ser realizada no momento, tente novamente.",Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public static Bitmap fotoUser(){
+        return foto;
     }
 }

@@ -1,17 +1,41 @@
 package br.com.sinapse.view;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.AsyncTask;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.MapsInitializer;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -31,15 +55,23 @@ import br.com.sinapse.model.Evento;
 import br.com.sinapse.model.Instituicao;
 import br.com.sinapse.model.User;
 
-public class EventoActivity extends AppCompatActivity {
+public class EventoActivity extends AppCompatActivity implements OnMapReadyCallback {
     private String _id = "";
-    private TextView tema,data,duracao,palestrante,vagas,descricao,categoria,instituicao,horas,eventoId;
+    private TextView tema, data, duracao, palestrante, vagas, descricao, categoria, instituicao, horas, eventoId;
     public static Evento e;
     private AlertDialog alert;
+    private GoogleMap gmap;
+    private SupportMapFragment mapView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_evento);
+        mapView = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+        mapView.getMapAsync(this);
+
+        //mapView.onCreate(savedInstanceState);
+        //mapView.onCreate(savedInstanceState);
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN); // Para o layout preencher toda tela do cel (remover a barra de tit.)
         getSupportActionBar().hide(); //esconder ActionBar
@@ -48,6 +80,37 @@ public class EventoActivity extends AppCompatActivity {
         carregaObjetos();
         this.e = FeedActivity.eventoId;
         mostraEvento();
+
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        gmap = googleMap;
+        gmap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        gmap.getUiSettings().setZoomControlsEnabled(true);
+        LatLng ny = new LatLng(-5.8077710, -35.1986180);
+        final CameraPosition pos = new CameraPosition.Builder()
+                .target(ny) // Localização
+                .bearing(0) // Direcao em graus que a camera aponta
+                .tilt(0) // Angulo de posicionamento da camera
+                .build();
+        CameraUpdate updateCam = CameraUpdateFactory.newCameraPosition(pos);
+        gmap.animateCamera(updateCam);
+        MarkerOptions markerOptions = new MarkerOptions();
+        markerOptions.position(ny).title(this.e.getLocal()).snippet("Verifique a rota do local do evento.");
+        Marker marker = gmap.addMarker(markerOptions);
+        gmap.moveCamera(CameraUpdateFactory.newLatLng(ny));
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        gmap.setMyLocationEnabled(true);
     }
 
     private void mostraEvento(){
@@ -82,26 +145,12 @@ public class EventoActivity extends AppCompatActivity {
         alert.show();
     }
 
-    private void retornoInscricao(){
-        if(!MainActivity.dbHelper.verificaUsuarioPalestranteEvento(MainActivity.userLogado.getId(),e.getId())) {
-            if (!MainActivity.dbHelper.verificaUsuarioNoEvento(MainActivity.userLogado.getId(),e.getId())) {
-                if (!MainActivity.dbHelper.inscreveUsuarioEvento(MainActivity.userLogado.getId(), e.getId())) {
-                    Toast.makeText(getApplicationContext(), "Inscrição efetuada com sucesso!", Toast.LENGTH_LONG).show();
-                    startActivity(new Intent(EventoActivity.this, FeedActivity.class));
-                    finishAffinity();
-                } else
-                    Toast.makeText(getApplicationContext(), "Não foi possível realizar inscrição.", Toast.LENGTH_LONG).show();
-            } else
-                Toast.makeText(getApplicationContext(), "Usuário já cadastrado no evento.", Toast.LENGTH_LONG).show();
-        }else Toast.makeText(getApplicationContext(), "Você já é palestrante do evento.", Toast.LENGTH_LONG).show();
-    }
-
     public void clickInscricao(View v){
         confirmaInscricao();
     }
 
     public void abreListaUsuariosEvento(View v){
-       // startActivity(new Intent(EventoActivity.this,EventoParticipante.class));
+       startActivity(new Intent(EventoActivity.this,EventoParticipante.class));
     }
 
     private void cadastroEntidade(){

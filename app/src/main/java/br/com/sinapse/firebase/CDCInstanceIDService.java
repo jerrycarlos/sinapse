@@ -1,11 +1,11 @@
-package br.com.sinapse.controller;
+package br.com.sinapse.firebase;
 
-import android.app.AlertDialog;
-import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.util.Log;
+
+
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.FirebaseInstanceIdService;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -16,33 +16,30 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import br.com.sinapse.model.User;
-import br.com.sinapse.view.CadastroActivity;
+import br.com.sinapse.config.Config;
 
-public class CadastroUserControl {
-    Context activity;
-    public static String servidor = "http://192.168.0.21";
-    private String msgOperacao = "";
-    public CadastroUserControl(Context context){
-        this.activity = context;
+
+public class CDCInstanceIDService extends FirebaseInstanceIdService {
+    public static String tokenId = null;
+    @Override
+    public void onTokenRefresh() {
+        // Get updated InstanceID token.
+        String refreshedToken = FirebaseInstanceId.getInstance().getToken();
+        Log.d("Token do App: ", refreshedToken);
+        //tokenId = refreshedToken;
+        // If you want to send messages to this application instance or
+        // manage this apps subscriptions on the server side, send the
+        // Instance ID token to your app server.
+        //sendRegistrationToServer(refreshedToken);
     }
 
-    public void cadastroEntidade(User u) {
-        msgOperacao = "Registrando usuario...";
+    private void sendRegistrationToServer(String refreshedToken) {
         JSONObject postData = new JSONObject();
         try {
-            postData.put("nome",u.getNome());
-            postData.put("email",u.getEmail());
-            postData.put("senha",u.getSenha());
-            postData.put("login",u.getLogin());
-            postData.put("telefone",u.getTelefone());
-            postData.put("instituicao",u.getInstituicao());
-            postData.put("curso",u.getCurso());
-            postData.put("periodo",u.getPeriodo());
-            postData.put("ocupacao",u.getOcupacao());
+            postData.put("token",refreshedToken);
 
             SendDeviceDetails t = new SendDeviceDetails();
-            t.execute("http://192.168.0.21/cadastroUsuario.php", postData.toString());
+            t.execute(Config.ip_servidor+"/sendTokenFirebase.php", postData.toString());
             //ip externo http://179.190.193.231/cadastro.php
             //ip interno 192.168.0.21 minha casa
             //ip interno hotspot celular 192.168.49.199[
@@ -51,14 +48,7 @@ public class CadastroUserControl {
         }
     }
 
-    private class SendDeviceDetails extends AsyncTask<String, Void, String> {
-        private ProgressDialog progress = new ProgressDialog(activity);
-
-        protected void onPreExecute() {
-            //display progress dialog.
-            this.progress.setMessage(msgOperacao);
-            this.progress.show();
-        }
+    private  class SendDeviceDetails extends AsyncTask<String, Void, String> {
 
         @Override
         protected String doInBackground(String... params) {
@@ -111,49 +101,16 @@ public class CadastroUserControl {
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
             Log.e("TAG", result); // this is expecting a response code to be sent from your server upon receiving the POST data
-            if (progress.isShowing()) {
-                progress.dismiss();
-            }
-
 
             JSONObject json = null;
-            Long codigo = null;
-            String msg = null;
-            String nome = null, email = null, senha = null;
+            int id = -1, periodo = 0;
             Log.i("result",result);
             try {
                 json = new JSONObject(result);
-                codigo = json.getLong("status");
-                msg = json.getString("msg");
+                Log.i("msg",json.getString("msg"));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
-            String titulo = "Sucesso";
-
-            if(codigo == 1){
-                CadastroActivity.result = true;
-
-            }
-            if( codigo < 1){
-                titulo  = "Erro";
-                CadastroActivity.result = false;
-            }
-
-            AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-
-            builder.setMessage(msg)
-                    .setTitle(titulo);
-            builder.setNeutralButton("OK", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
-                    dialog.cancel();
-                }
-            });
-
-            // 3. Get the AlertDialog from create()
-            AlertDialog dialog = builder.create();
-
-            dialog.show();
         }
 
     }

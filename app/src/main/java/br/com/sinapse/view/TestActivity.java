@@ -3,12 +3,14 @@ package br.com.sinapse.view;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -25,6 +27,7 @@ import br.com.sinapse.model.User;
 public class TestActivity extends AppCompatActivity {
     private EditText tNome,tSenha,tEmail,tLogin,tPeriodo,tOcup,tInst,tFone,tCurso;
     public static User usuarioLogado = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -168,14 +171,6 @@ public class TestActivity extends AppCompatActivity {
     }
 
     private void initObjects(){
-        tNome = (EditText) findViewById(R.id.txtNomeTest);
-        tEmail = (EditText) findViewById(R.id.txtEmailTest);
-        tSenha = (EditText) findViewById(R.id.txtSenhaTest);
-        tLogin = (EditText) findViewById(R.id.txtLoginTest);
-        tInst = (EditText) findViewById(R.id.txtInstituicaoTest);
-        tOcup = (EditText) findViewById(R.id.txtOcupacaoTest);
-        tPeriodo = (EditText) findViewById(R.id.txtPeriodoTest);
-        tFone = (EditText) findViewById(R.id.txtFoneTest);
-        tCurso = (EditText) findViewById(R.id.txtCursoTest);
+
     }
 }

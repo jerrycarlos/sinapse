@@ -1,53 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="br.com.sinapse.view.FeedActivity">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_list"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        tools:listitem="@layout/recyclerview_list"
-        tools:visibility="visible">
+        android:layout_height="wrap_content">
 
-    </android.support.v7.widget.RecyclerView>
+        <ImageView
+            android:id="@+id/imgUser"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_centerHorizontal="true"
+            app:srcCompat="@mipmap/ic_launcher" />
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/btAdd"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
-        android:clickable="true"
-        android:onClick="abreCadastroEvento"
-        android:scaleType="center"
-        app:backgroundTint="?attr/actionModeSplitBackground"
-        app:fabSize="normal"
-        app:srcCompat="@android:drawable/ic_menu_add"
-        tools:targetApi="n_mr1" />
+        <TextView
+            android:id="@+id/labelUser"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/imgUser"
+            android:gravity="center"
+            android:text="Ola Fulano" />
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/btLogoutFeed"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|center"
-        android:clickable="true"
-        android:onClick="btLogout"
-        android:scaleType="center"
-        app:backgroundTint="?attr/actionModeSplitBackground"
-        app:fabSize="normal"
-        app:srcCompat="@android:drawable/ic_lock_power_off"
-        tools:targetApi="n_mr1" />
+    </RelativeLayout>
 
-    <TextView
-        android:id="@+id/labelUser"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Ola Fulano" />
+        android:layout_height="match_parent">
+
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_refresh_feedlayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                tools:listitem="@layout/recyclerview_list"
+                tools:visibility="visible">
+
+            </android.support.v7.widget.RecyclerView>
+        </android.support.v4.widget.SwipeRefreshLayout>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/btAdd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right"
+            android:clickable="true"
+            android:onClick="abreCadastroEvento"
+            android:scaleType="center"
+            app:backgroundTint="?attr/actionModeSplitBackground"
+            app:fabSize="normal"
+            app:srcCompat="@android:drawable/ic_menu_add"
+            tools:targetApi="n_mr1" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/btLogoutFeed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center"
+            android:clickable="true"
+            android:onClick="btLogout"
+            android:scaleType="center"
+            app:backgroundTint="?attr/actionModeSplitBackground"
+            app:fabSize="normal"
+            app:srcCompat="@android:drawable/ic_lock_power_off"
+            tools:targetApi="n_mr1" />
+
+    </FrameLayout>
 
     <TextView
         android:id="@+id/txtNoEvents"
@@ -59,4 +86,4 @@
         android:text='Não há eventos no momento, cadastre o primeiro evento no botão "+" abaixo.'
         android:visibility="gone" />
 
-</FrameLayout>
+</LinearLayout>

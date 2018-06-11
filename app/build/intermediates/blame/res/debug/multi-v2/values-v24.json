@@ -4,7 +4,7 @@
             "outputFile": "/home/jerry/StudioProjects/project-sinapse/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-v24/values-v24.xml",
             "map": [
                 {
-                    "source": "/home/jerry/.gradle/caches/transforms-1/files-1.1/support-media-compat-26.0.1.aar/b39c9ef66ef3d1b01f5f184b1fc43dbb/res/values-v24/values-v24.xml",
+                    "source": "/home/jerry/.gradle/caches/transforms-1/files-1.1/support-media-compat-26.1.0.aar/e6b055daabbe2c8cc44d4c9132ae13b1/res/values-v24/values-v24.xml",
                     "from": {
                         "startLines": "2,3,4,5",
                         "startColumns": "4,4,4,4",
@@ -21,7 +21,7 @@
                     }
                 },
                 {
-                    "source": "/home/jerry/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.0.1.aar/c2ac6d6e51c4a9e9e1416cbbebebab1b/res/values-v24/values-v24.xml",
+                    "source": "/home/jerry/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.1.0.aar/eef124a27354ca5f9b39997e323293a2/res/values-v24/values-v24.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7",
                         "startColumns": "4,4,4,4,4,4",
