@@ -70,8 +70,13 @@ public class CadastroEventoActivity extends AppCompatActivity {
         }
         descricao = txtEventoDescricao.getText().toString();
 
-        fkPalestrante = MainActivity.userLogado.getId();
+        if(s.getSelectedItemPosition()<=0){
+            Toast.makeText(getApplicationContext(),"Escolha uma instituição!",Toast.LENGTH_SHORT).show();
+            return;
+        }
         fkInstituicao = s.getSelectedItemPosition()+1;
+
+        fkPalestrante = MainActivity.userLogado.getId();
         Evento evento = new Evento(tema,descricao,fkPalestrante,fkInstituicao);
         evento.setCategoria("categoria");
         evento.setData("01/01/0001");

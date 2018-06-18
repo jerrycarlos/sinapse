@@ -33,6 +33,8 @@ import java.util.ArrayList;
 import br.com.sinapse.R;
 import br.com.sinapse.adapter.LineAdapter;
 import br.com.sinapse.config.Config;
+import br.com.sinapse.controller.CarregarImagem;
+import br.com.sinapse.controller.UserControl;
 import br.com.sinapse.firebase.UpdateTokenId;
 import br.com.sinapse.model.Evento;
 
@@ -47,6 +49,7 @@ public class FeedActivity extends AppCompatActivity {
     private TextView labelUser, labelNoEvento;
     private RecyclerView recyclerListFeed;
     private static final String PREF_NAME = "MainActivityPreferences";
+    private static Context activity;
     public static ImageView imgProfile;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +59,7 @@ public class FeedActivity extends AppCompatActivity {
         getSupportActionBar().hide(); //esconder ActionBar
         //mRecyclerView = new RecyclerView();
         //loadEvento();
+        activity = FeedActivity.this;
         imgProfile = (ImageView) findViewById(R.id.imgUser);
         UpdateTokenId.updateTokenUser(true);
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_list);
@@ -174,6 +178,10 @@ public class FeedActivity extends AppCompatActivity {
     @Override
     public void onResume(){
         super.onResume();
+        if(UserControl.imagem != null) {
+            String url = Config.ip_servidor + "/profiles/" + UserControl.imagem + ".png";
+            CarregarImagem.baixarImagem(MainActivity.userLogado.getId(), url, activity);
+        }
         listaEvento();
     }
 

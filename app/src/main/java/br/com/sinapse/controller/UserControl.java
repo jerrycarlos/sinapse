@@ -39,7 +39,7 @@ public class UserControl extends Activity{
     public static Context activity;
     public static String servidor = "http://192.168.0.21";
     private static String msgOperacao = "";
-
+    public static String imagem = null;
     private static final String PREF_NAME = "MainActivityPreferences";
 
 
@@ -174,7 +174,7 @@ public class UserControl extends Activity{
             Long codigo = null;
             String msg = null;
             String nome = null, email = null, senha = null, login = null, instituicao = null,
-                    curso = null, ocupacao = null, telefone = null, imagem = null;
+                    curso = null, ocupacao = null, telefone = null;
             int id = -1, periodo = 0;
             Log.i("result",result);
             try {
